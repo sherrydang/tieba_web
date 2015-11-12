@@ -1,0 +1,41 @@
+<div class="panel-body">
+    <h3 style="font-style: normal; margin-bottom: 12px;"><i class="fa fa-desktop"
+                                                            style="color: #70a43f; padding-bottom: -1px; padding-right: 15px"/>实时监控
+        <div class="row">
+            <span class="pull-right "><img src="img/img_instructions_1.png"/><img
+                    src="img/img_instructions_2.png"/></span></div>
+    </h3>
+    <div class="row">
+        <div class="col-lg-12" style="margin-bottom: 12px;">
+            <div id="map" style="height:500px; ">
+                <label style="padding: 8px; background: #ffffff; position: absolute; right:12px; top:12px; z-index: 100000;"><input
+                        class="pull-left" type="checkbox" ng-model="gasStation"
+                        value="1"/> <span style="margin-left: 4px;">加油站</span></label>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h4>收运车
+                <div class="pull-right">
+                    <button style="margin-left: 12px" class="btn btn-default btn-xs"
+                            ng-class="vehicle==undefined?'disabled':''" ng-click="showVideo()"><i
+                            class="fa fa-video-camera "></i> 视频
+                    </button>
+                    <button class="btn btn-default btn-xs disabled"><i class="fa fa-volume-up "></i> 音频
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-class="vehicle==undefined?'disabled':''"
+                            ng-click="showCall()"><i
+                            class="fa fa-phone "></i> 通话
+                    </button>
+
+                </div>
+            </h4>
+            <div ui-grid="vehicleOptions" ui-grid-selection class="grid" style="height: 300px;"></div>
+        </div>
+        <div class="col-lg-6">
+            <h4>任务</h4>
+
+            <div ui-grid="taskOptions" ui-grid-selection class="grid" style="height: 300px;"></div>
+        </div>
+    </div>
+
+</div>

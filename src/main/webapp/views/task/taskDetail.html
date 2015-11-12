@@ -1,0 +1,127 @@
+<div class="panel-body">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a ng-click="leaveThisPage()">任务管理
+            </a></li>
+            <li>编辑方案</li>
+        </ol>
+    </div>
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#" target="_self">选择收运车和收集请求</a></li>
+            <li role="presentation"><a href="#/taskBind/{{object.id}}/{{object.state}}">任务派发</a></li>
+            <!--<div class="pull-right" ng-show="object.state!=2">-->
+            <!--<button ng-click="cancel()" class="btn btn-success square-btn-adjust"><span-->
+                    <!--class="fa fa-mail-reply"></span>-->
+                <!--取消-->
+            <!--</button>-->
+            <!--<button ng-click="save()" class="btn btn-danger square-btn-adjust"><span-->
+                    <!--class="fa fa-check"></span>-->
+                <!--保存-->
+            <!--</button>-->
+                <!--</div>-->
+        </ul>
+    </div>
+    <div class="row" style="margin-top: 12px;">
+        <div class="col-lg-6">
+            <h4>收运车
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs" ng-class="saveing?'disabled':''" href="#" target="_self"
+                            ng-click="vehicleAll()">参与
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-class="saveing?'disabled':''" href="#" target="_self"
+                            ng-click="vehicleClear()">取消
+                    </button>
+                </div>
+            </h4>
+            <div ui-grid="bindedVehicleGridOptions" ui-grid-selection class="grid"
+                 style="height: 600px; margin-top: 12px;"></div>
+        </div>
+        <div class="col-lg-6">
+            <h4>收运请求
+                <button class="btn btn-default  btn-xs" ng-class="saveing?'disabled':''" href="#" target="_self"
+                        ng-click="addDemand()">新建
+                </button>
+                <div class="pull-right">
+                    <button class="btn btn-default  btn-xs" ng-class="saveing?'disabled':''" href="#" target="_self"
+                            ng-click="demandAll()">参与
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-class="saveing?'disabled':''" href="#" target="_self"
+                            ng-click="demandClear()">取消
+                    </button>
+                </div>
+            </h4>
+            <div ui-grid="bindedDemandGridOptions" ui-grid-selection ui-grid-pagination class="grid"
+                 style="height: 600px; margin-top: 12px;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="edit" class="modal fade myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <form ng-submit="saveDemand()" id="form">
+            <fieldset>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">新建任务</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label>收运时间</label>
+
+                                <div class="controls">
+                                    <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"/>
+                                </span>
+                                        <input type="text" id="effect_date"
+                                               class="form-control" required
+                                               pattern="\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s-\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}"
+                                               placeholder="YYYY-MM-DD hh:mm:ss - YYYY-MM-DD hh:mm:ss"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>垃圾类型</label>
+
+                                <div class="controls">
+                                    <select ng-model="taskObject.garbage_type"
+                                            class="form-control" required>
+                                        <option value="">-垃圾类型-</option>
+                                        <option value="1000">固体垃圾</option>
+                                        <option value="1001">油脂垃圾</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label>垃圾量</label>
+
+                                <div class="controls"><input type="number" placeholder="" ng-model="taskObject.quantity"
+                                                             class="form-control" required/></div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>选择收运点</label>
+
+                                <div class="controls">
+                                    <div ui-grid="customGridOptions" ui-grid-selection ui-grid-pagination class="grid"
+                                         style="height: 300px; width: 560px;"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-success">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

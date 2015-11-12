@@ -1,0 +1,433 @@
+﻿<div class="panel-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/basic/vehicle">车辆管理</a></li>
+        <li>车辆详细</li>
+    </ol>
+    <button ng-click="add()" class="btn btn-default "><span class="fa fa-plus"></span> 新建</button>
+    <button ng-click="edit()" class="btn btn-default " ng-class="object.id==undefined?'disabled':''"><span class="fa fa-edit"></span> 编辑</button>
+    <button ng-click="delete()" class="btn btn-default " ng-class="object.id==undefined?'disabled':''"><span class="fa fa-trash-o"> 删除</span>
+    </button>
+
+    <div class="btn-group pull-right" role="group" aria-label="...">
+        <button ng-click="maintenance()" type="button" class="btn btn-default">保养</button>
+        <button ng-click="verification()" type="button" class="btn btn-default">年审</button>
+        <button ng-click="insurance()" type="button" class="btn btn-default">保险</button>
+        <button ng-click="ticket()" type="button" class="btn btn-default">年票</button>
+    </div>
+</div>
+<div class="panel-body">
+    <div ui-grid="gridOptions" ui-grid-selection ui-grid-pagination class="grid" style="height: 600px;"></div>
+</div>
+
+<div id="editMaintenance" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑</h4><a class="modal-title">(注：带*的项目为必填项)</a>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success" ng-show="responseCode.code=='200'">
+                    <i class="fa fa-check-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <div class="alert alert-warning" ng-show="responseCode.code!=undefined&&responseCode.code!='200'">
+                    <i class="fa fa-exclamation-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <form name="form" ng-submit="save()">
+                    <input type="hidden" ng-model="object.vehicle_id"/>
+                    <input type="hidden" ng-model="object.id">
+                    <fieldset>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label>保养类别 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.category"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保养负责人 *</label>
+
+                                <div class="controls">
+                                    <select ng-model="object.person_id"
+                                            class="form-control"
+                                            ng-options="m.id as m.personalBase.name for m in users" required>
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保养费用 *</label>
+
+                                <div class="controls">
+                                    <input type="number" step="0.1" placeholder="" ng-model="object.cost"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保养项目 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.details"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保养地点 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.address"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>缴费日期 *</label>
+
+                                <div class="controls">
+                                    <div id="payment_date" class="input-group date" data-date=""
+                                         data-date-format="yyyy-mm-dd">
+                                            <span class="input-group-addon"><span
+                                                    class="fa fa-calendar"></span></span>
+                                        <input class="form-control" size="16" type="text"
+                                               ng-model="object.payment_date"
+                                               readonly required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>有效日期 *</label>
+                                <div class="controls">
+                                    <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"/>
+                                </span>
+                                        <input type="text" name="effect_date"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success">保存</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editVerification" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑</h4><a class="modal-title">(注：带*的项目为必填项)</a>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success" ng-show="responseCode.code=='200'">
+                    <i class="fa fa-check-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <div class="alert alert-warning" ng-show="responseCode.code!=undefined&&responseCode.code!='200'">
+                    <i class="fa fa-exclamation-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <form ng-submit="save()">
+                    <input type="hidden" ng-model="object.vehicle_id"/>
+                    <input type="hidden" ng-model="object.id">
+                    <fieldset>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label>年审类别 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.category"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>年审负责人 *</label>
+
+                                <div class="controls">
+                                    <select ng-model="object.person_id"
+                                            class="form-control"
+                                            ng-options="m.id as m.personalBase.name for m in users" required>
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>年审费用 *</label>
+
+                                <div class="controls">
+                                    <input type="number" step="0.1" placeholder="" ng-model="object.cost"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>年审项目 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.details"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保养地点 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.address"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>缴费日期 *</label>
+
+                                <div class="controls">
+                                    <div id="verification_payment_date" class="input-group date" data-date=""
+                                         data-date-format="yyyy-mm-dd">
+                                            <span class="input-group-addon"><span
+                                                    class="fa fa-calendar"></span></span>
+                                        <input class="form-control" size="16" type="text"
+                                               ng-model="object.payment_date"
+                                               readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>有效日期 *</label>
+                                <div class="controls">
+                                    <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"/>
+                                </span>
+                                        <input type="text" name="effect_date"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success">保存</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editInsurance" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑</h4><a class="modal-title">(注：带*的项目为必填项)</a>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success" ng-show="responseCode.code=='200'">
+                    <i class="fa fa-check-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <div class="alert alert-warning" ng-show="responseCode.code!=undefined&&responseCode.code!='200'">
+                    <i class="fa fa-exclamation-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <form ng-submit="save()">
+                    <input type="hidden" ng-model="object.vehicle_id"/>
+                    <input type="hidden" ng-model="object.id">
+                    <fieldset>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label>保险类别 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.category"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保险负责人 *</label>
+
+                                <div class="controls">
+                                    <select ng-model="object.person_id"
+                                            class="form-control"
+                                            ng-options="m.id as m.personalBase.name for m in users" required>
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保险费用 *</label>
+
+                                <div class="controls">
+                                    <input type="number" step="0.1" placeholder="" ng-model="object.cost"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保险项目 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.details"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保险地点 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.address"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>缴费日期 *</label>
+
+                                <div class="controls">
+                                    <div id="insurance_payment_date" class="input-group date" data-date=""
+                                         data-date-format="yyyy-mm-dd">
+                                            <span class="input-group-addon"><span
+                                                    class="fa fa-calendar"></span></span>
+                                        <input class="form-control" size="16" type="text"
+                                               ng-model="object.payment_date"
+                                               readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>有效日期 *</label>
+                                <div class="controls">
+                                    <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"/>
+                                </span>
+                                        <input type="text" name="effect_date"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success">保存</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editTicket" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑</h4><a class="modal-title">(注：带*的项目为必填项)</a>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success" ng-show="responseCode.code=='200'">
+                    <i class="fa fa-check-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <div class="alert alert-warning" ng-show="responseCode.code!=undefined&&responseCode.code!='200'">
+                    <i class="fa fa-exclamation-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <form ng-submit="save()">
+                    <input type="hidden" ng-model="object.vehicle_id"/>
+                    <input type="hidden" ng-model="object.id">
+                    <fieldset>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label>年票类别</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.category"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>年票负责人</label>
+
+                                <div class="controls">
+                                    <select ng-model="object.person_id"
+                                            class="form-control"
+                                            ng-options="m.id as m.personalBase.name for m in users">
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>年票费用</label>
+
+                                <div class="controls">
+                                    <input type="number" step="0.1" placeholder="" ng-model="object.cost"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>年票项目</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.details"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>保养地点</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.address"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>缴费日期</label>
+
+                                <div class="controls">
+                                    <div id="ticket_payment_date" class="input-group date" data-date=""
+                                         data-date-format="yyyy-mm-dd">
+                                            <span class="input-group-addon"><span
+                                                    class="fa fa-calendar"></span></span>
+                                        <input class="form-control" size="16" type="text"
+                                               ng-model="object.payment_date"
+                                               readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>有效日期</label>
+                                <div class="controls">
+                                    <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"/>
+                                </span>
+                                        <input type="text" name="effect_date"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success">保存</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

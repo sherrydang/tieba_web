@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:property-placeholder location="classpath:*.properties"/>
+    <!-- 启动注解功能 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean id="jsonConverter" class="com.geetion.tieba.utils.MappingFastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+                <property name="serializerFeature">
+                    <array>
+                        <value>QuoteFieldNames</value>
+                        <value>DisableCircularReferenceDetect</value>
+                        <value>WriteNullListAsEmpty</value>
+                        <value>WriteNullBooleanAsFalse</value>
+                        <value>WriteNullNumberAsZero</value>
+                        <value>WriteMapNullValue</value>
+                        <value>WriteNullStringAsEmpty</value>
+                    </array>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/"/>
+        <beans:property name="suffix" value=""/>
+    </beans:bean>
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxInMemorySize" value="40960"/>
+        <beans:property name="maxUploadSize" value="10485760000"/>
+        <beans:property name="defaultEncoding" value="utf-8"/>
+    </beans:bean>
+
+    <context:component-scan base-package="com.geetion.tieba.controller" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 定义无Controller的path<->view直接映射 -->
+    <mvc:resources location="resource" mapping="/**"/>
+    <mvc:view-controller path="/" view-name="redirect:/login"/>
+    <!-- 将无法mapping到Controller的path交给default servlet handler处理 -->
+    <mvc:default-servlet-handler default-servlet-name="/error"></mvc:default-servlet-handler>
+
+    <import resource="spring-mvc-shiro.xml"/>
+
+    <!-- 控制器异常处理 -->
+    <bean id="exceptionHandlerExceptionResolver"
+          class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
+
+</beans>
+    

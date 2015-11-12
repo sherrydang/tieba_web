@@ -1,0 +1,22 @@
+//created on: 25-Sep-2014
+package rules
+
+//list any import classes here.
+import com.geetion.system.collection.pojo.*
+
+
+//declare any global variables here
+
+rule "validate the captcha"
+when
+
+then
+
+end
+
+rule "validate the content"
+when
+
+then
+
+end

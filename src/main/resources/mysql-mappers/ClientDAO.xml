@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geetion.tieba.dao.ClientDAO">
+    <resultMap type="com.geetion.tieba.pojo.Client" id="BaseResultMap">
+        <result property="id" column="client_id"/>
+        <result property="nickName" column="client_nick_name"/>
+        <result property="account" column="client_account"/>
+        <result property="password" column="client_password"/>
+        <result property="createTime" column="client_create_time"/>
+    </resultMap>
+
+    <sql id="tableProperty">
+      client.id AS client_id,
+      client.nick_name AS client_nick_name,
+      client.account AS client_account,
+      client.password AS client_password,
+      client.create_time AS client_create_time
+    </sql>
+
+    <insert id="insert" parameterType="com.geetion.tieba.pojo.Client">
+        insert into client
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="account != null">
+                account,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="update" parameterType="com.geetion.tieba.pojo.Client">
+        update client
+        <trim suffixOverrides=",">
+            <set>
+                <if test="password != null">
+                    password = #{password,jdbcType=VARCHAR},
+                </if>
+                <if test="nickName != null">
+                    nick_name = #{nickName,jdbcType=VARCHAR},
+                </if>
+            </set>
+        </trim>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="tableProperty" />
+        FROM client
+        <trim prefix="where">
+            <if test="account != null">
+                account = #{account}
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectPk" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="tableProperty" />
+        FROM client
+        <trim prefix="where">
+            id = #{id}
+        </trim>
+    </select>
+</mapper>

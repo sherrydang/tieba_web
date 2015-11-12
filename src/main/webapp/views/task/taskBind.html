@@ -1,0 +1,89 @@
+<div class="panel-body">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a ng-click="leaveThisPage()">任务管理
+            </a></li>
+            <li>编辑方案</li>
+        </ol>
+    </div>
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li role="presentation"><a href="#/taskDetail/{{object.id}}/{{object.state}}">选择收运车和收集请求</a></li>
+            <li role="presentation" class="active"><a href="#">任务派发</a></li>
+            <!--<div class="pull-right" ng-show="object.state!=2">-->
+                <!--<button ng-click="cancel()" class="btn btn-success square-btn-adjust"><span-->
+                        <!--class="fa fa-mail-reply"></span>-->
+                    <!--取消-->
+                <!--</button>-->
+                <!--<button ng-click="save()" class="btn btn-danger square-btn-adjust"><span-->
+                        <!--class="fa fa-check"></span>-->
+                    <!--保存-->
+                <!--</button>-->
+            <!--</div>-->
+        </ul>
+    </div>
+    <div class="row" style="margin-top: 12px;">
+        <div class="col-lg-4">
+            <h4>收运车
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs" ng-class="saveing||vehicle==undefined||object.state!=10?'disabled':''" href="#"
+                            target="_self"
+                            ng-click="lock()">锁定
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-class="saveing||vehicle==undefined||object.state!=10?'disabled':''" href="#"
+                            target="_self"
+                            ng-click="unlock()">解锁
+                    </button>
+                </div>
+            </h4>
+
+            <div ui-grid="vehicleGridOptions" ui-grid-selection class="grid"
+                 style="height: 300px;"></div>
+        </div>
+        <div class="col-lg-4">
+            <h4>
+                已派发
+                <span class="pull-right"> <button class="btn btn-default btn-xs"
+                                                  ng-class="saveing||vehicle==undefined||(!vehicle.lock&&object.state==10)?'disabled':''"
+                                                  href="#" target="_self"
+                                                  ng-click="up()"><i class="fa fa-chevron-up"></i>上移
+                </button>
+                <button class="btn btn-default btn-xs"
+                        ng-class="saveing||vehicle==undefined||(!vehicle.lock&&object.state==10)?'disabled':''" href="#" target="_self"
+                        ng-click="down()"><i class="fa fa-chevron-down"></i>下移
+                </button><button class="btn btn-default btn-xs"
+                                 ng-class="saveing||vehicle==undefined||(!vehicle.lock&&object.state==10)?'disabled':''" href="#"
+                                 target="_self"
+                                 ng-click="delete()">取消<i class="fa fa-chevron-right"></i>
+                    </button>
+               </span>
+            </h4>
+            <div ui-grid="vehicleDemandGridOptions" ui-grid-selection class="grid"
+                 style="height: 300px;"></div>
+        </div>
+        <div class="col-lg-4">
+            <h4>
+                <button class="btn btn-default btn-xs"
+                        ng-class="saveing||vehicle==undefined||(!vehicle.lock&&object.state==10)?'disabled':''" href="#" target="_self"
+                        ng-click="select()"><i class="fa fa-chevron-left"></i>派发
+                </button>
+                <div class="pull-right">
+                    待派发
+                </div>
+            </h4>
+            <div ui-grid="demandGridOptions" ui-grid-selection class="grid"
+                 style="height: 300px;"></div>
+        </div>
+
+    </div>
+    <div class="row" style="margin-top: 12px;">
+        <div class="col-lg-12">
+            <h4>地图</h4>
+
+            <div id="map" style="height: 500px;"></div>
+        </div>
+
+
+    </div>
+
+</div>

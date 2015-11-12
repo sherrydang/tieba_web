@@ -1,0 +1,53 @@
+<div class="panel-body">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a ng-click="leaveThisPage()">任务管理
+        </a></li>
+            <li>执行计划</li>
+        </ol>
+    </div>
+    <div id='wrap'>
+        <div class="row">
+            <div id='external-events' class="col-lg-2">
+                <h4>可选方案</h4>
+
+                <div class='fc-event'>方案1</div>
+                <div class='fc-event'>方案2</div>
+            </div>
+
+            <div id='calendar' class="col-lg-10"></div>
+
+        </div>
+    </div>
+</div>
+<style>
+    #external-events {
+        border: 1px solid #ccc;
+        background: #eee;
+        text-align: left;
+    }
+
+    #external-events h4 {
+        font-size: 16px;
+        margin-top: 0;
+        padding-top: 1em;
+    }
+
+    #external-events .fc-event {
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
+    #external-events p {
+        margin: 1.5em 0;
+        font-size: 11px;
+        color: #666;
+    }
+
+    #external-events p input {
+        margin: 0;
+        vertical-align: middle;
+    }
+
+
+</style>

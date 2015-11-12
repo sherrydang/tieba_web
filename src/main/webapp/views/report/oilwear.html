@@ -1,0 +1,101 @@
+<div class="panel-body">
+    <form ng-submit="choose()" id="form">
+        <div class="row">
+            <div class="col-lg-2"><select class="form-control" ng-model="object">
+                <option name="person" value="">选择司机</option>
+                <option name="person" value="0,-1">全部</option>
+                <option ng-repeat="item in persons" name="object_id" value="0,{{item.id}}">{{item.name}}</option>
+            </select></div>
+            <div class="col-lg-2"><select class="form-control" ng-model="object">
+                <option name="vehicle" value="">选择车牌</option>
+                <option name="vehicle" value="1,-1">全部</option>
+                <option ng-repeat="item in vehicles" name="object_id" value="1,{{item.id}}">{{item.plate_number}}
+                </option>
+            </select></div>
+            <div class="col-lg-2"><select class="form-control" ng-model="object">
+                <option name="area" value="">选择区</option>
+                <option name="area" value="2,-1">全部</option>
+                <option ng-repeat="item in areas" name="object_id" value="2,{{item.cid}}">{{item.name}}</option>
+            </select></div>
+            <div class="col-lg-2"><select class="form-control" ng-model="object">
+                <option name="area" value="">选择镇街</option>
+                <option name="area" value="3,-1">全部</option>
+                <option ng-repeat="item in streets" name="object_id" value="3,{{item.cid}}">{{item.name}}</option>
+            </select></div>
+            <div class="col-lg-2"><select id="select_time" class="form-control" ng-model="time" onchange="if(document.getElementById('select_time').value == 'null')document.getElementById('calendar').style.display = 'block'; else document.getElementById('calendar').style.display = 'none';">
+                <option ng-model="object.time" value="null">时间段</option>
+                <option name="time" value="day">日</option>
+                <option name="time" value="week">周</option>
+                <option name="time" value="month">月</option>
+                <option name="time" value="quarter">季</option>
+                <option name="time" value="year">年</option>
+            </select></div>
+            <div class="col-lg-3">
+                <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"/>
+                                </span>
+                    <input type="text" style="width: 316px" name="reservation" id="reservationtime"
+                           class="form-control" value="2015/01/01 - 2015/01/01"
+                           class="span4">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <button type="submit" class="btn btn-success">筛选</button>
+                <button type="button" class="btn btn-default">导出Excel</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="panel-body">
+    <div class="alert alert-success" ng-show="responseCode.code=='200'">
+        <i class="icon-ok-sign"></i>
+        {{responseCode.message}}
+    </div>
+    <div class="alert alert-warning" ng-show="responseCode.code!='200'&&responseCode!=null">
+        <i class="icon-remove-sign"></i>
+        {{responseCode.message}}
+    </div>
+
+    <div class="table-responsive">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <table class="table table-striped table-bordered table-hover ">
+                    <thead>
+                    <tr>
+                        <th>司机</th>
+                        <th>车牌</th>
+                        <th>收运点</th>
+                        <th>区</th>
+                        <td>镇街</td>
+                        <th>收集时间</th>
+                        <th>垃圾量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in resultList">
+                        <td>{{item.person_name}}</td>
+                        <td>{{item.plate_number}}</td>
+                        <td>{{item.custom_name}}</td>
+                        <td>{{item.area_name}}</td>
+                        <td>{{item.street_name}}</td>
+                        <td>{{item.times}}</td>
+                        <td>{{item.count}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        统计曲线图
+                    </div>
+                    <div class="panel-body">
+                        <div id="morris-bar-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

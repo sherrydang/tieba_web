@@ -1,0 +1,228 @@
+<div class="panel-heading">
+    <h3 style="font-style: normal; margin-bottom: 25px"><i class="fa fa-edit"
+                                                           style="color: #70a43f; padding-bottom: -1px; padding-right: 15px"/>基础信息管理
+        / 人员管理</h3>
+    <button ng-click="add()" class="btn btn-default "><span class="fa fa-plus"></span> 新建</button>
+    <button ng-click="edit()" class="btn btn-default " ng-class="object.id==undefined?'disabled':''"><span
+            class="fa fa-edit"></span> 编辑
+    </button>
+    <button ng-click="delete()" class="btn btn-default " ng-class="object.id==undefined?'disabled':''"><span
+            class="fa fa-trash-o"> 删除</span>
+    </button>
+</div>
+<div class="panel-body">
+    <div ui-grid="gridOptions" ui-grid-selection ui-grid-pagination class="grid" style="height: 600px;"></div>
+</div>
+<div id="edit" class="modal fade myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑</h4><a class="modal-title">(注：带*的项目为必填项)</a>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success" ng-show="responseCode.code=='200'">
+                    <i class="fa fa-check-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <div class="alert alert-warning" ng-show="responseCode.code!=undefined&&responseCode.code!='200'">
+                    <i class="fa fa-exclamation-circle"></i>
+                    {{responseCode.message}}
+                </div>
+                <form ng-submit="save()" id="form">
+                    <fieldset>
+                        <div class="row">
+                            <h3 class="col-lg-12">基础信息</h3>
+                            <hr/>
+                            <div class="form-group col-lg-6">
+                                <label>名字 *</label>
+                                <input type="text" ng-model="object.person_id" style="display: none">
+                                <input type="text" ng-model="object.personalBase.id" style="display: none">
+                                <input type="text" ng-model="object.id" style="display: none">
+
+                                <div class="controls">
+                                    <input type="text" placeholder="必填" ng-model="object.personalBase.name"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>出生日期 *</label>
+
+                                <div class="controls">
+                                    <div id="date" class="input-group date"
+                                         data-date-format="yyyy-mm-dd">
+                                            <span class="input-group-addon"><span
+                                                    class="fa fa-calendar"></span></span>
+                                        <input class="form-control" size="11" type="text"
+                                               ng-model="object.personalBase.birth"
+                                               style="background: #ffffff" readonly required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>性别 *</label>
+
+                                <div class="controls">
+                                    <input type="radio" value="1" ng-model="object.personalBase.sex"
+                                           checked="checked"/>
+                                    男
+                                    <input type="radio" value="0" ng-model="object.personalBase.sex"/>
+                                    女
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>籍贯省 *</label>
+                                    <select class="form-control" ng-model="object.origin_province"
+                                            ng-options="i.cid as i.name for i in province" required>
+                                        <option value="">-请选择省-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>籍贯市 *</label>
+                                    <select class="form-control" ng-model="object.origin_city"
+                                            ng-options="i.cid as i.name for i in origin_city" required>
+                                        <option value="">-请选择市-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>籍贯区 *</label>
+                                    <select class="form-control" ng-model="object.origin_area"
+                                            ng-options="i.cid as i.name for i in origin_area" required>
+                                        <option value="">-请选择区-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>身份证号 </label>
+                                    <div class="controls">
+                                        <input type="text" ng-model="object.id_card"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="col-lg-12">联系方式</h3>
+                            <hr/>
+                            <div class="form-group col-lg-6">
+                                <label>联系电话</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="000-00000000" ng-model="object.tel"
+                                           pattern="\d{3,4}-\d{7,8}"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>移动电话 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="11位号码" ng-model="object.mobile" pattern="\d{11}"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>电子邮件</label>
+
+                                <div class="controls">
+                                    <input type="email" placeholder="example@mail.com" ng-model="object.email"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>地址 *：</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.address"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>住址省 *</label>
+                                    <select class="form-control" ng-model="object.family_province"
+                                            ng-options="i.cid as i.name for i in province" required>
+                                        <option value="">-请选择省-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>住址市 *</label>
+                                    <select class="form-control" ng-model="object.family_city"
+                                            ng-options="i.cid as i.name for i in family_city" required>
+                                        <option value="">-请选择市-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>住址区 *</label>
+                                    <select class="form-control" ng-model="object.family_area"
+                                            ng-options="i.cid as i.name for i in family_area" required>
+                                        <option value="">-请选择区-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>住址街道 *</label>
+                                    <select class="form-control" ng-model="object.family_street"
+                                            ng-options="i.cid as i.name for i in family_street">
+                                        <option value="">-请选择街道-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <h3 class="col-lg-12">员工信息</h3>
+                            <hr/>
+                            <div class="form-group col-lg-6">
+                                <label>雇员编号 *</label>
+
+                                <div class="controls">
+                                    <input type="text" placeholder="" ng-model="object.personalBase.employee_no"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>密码 *</label>
+
+                                <div class="controls">
+                                    <input type="password" placeholder="" ng-model="object.personalBase.password"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>状态 *</label>
+
+                                <div class="controls">
+                                    <select ng-model="object.personalBase.status">
+                                        <option value="0">解雇</option>
+                                        <option value="1">正常</option>
+                                        <option value="2">锁定</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>角色 *</label>
+
+                                <div class="controls">
+                                    <input ui-select2="options" ng-model="object.roles" placeholder="选择角色"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success">保存</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
