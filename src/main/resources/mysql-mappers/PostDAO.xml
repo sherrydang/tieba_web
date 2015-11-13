@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.geetion.tieba.dao.PostDAO">
-    <resultMap type="com.geetion.tieba.pojo.Post" id="objects">
+    <resultMap type="com.geetion.tieba.pojo.Post" id="BaseResultMap">
 
         <id property="id" column="post_id"/>
         <result property="create_time" column="post_create_time"/>
@@ -29,7 +29,7 @@
     <insert id="insert" parameterType="com.geetion.tieba.pojo.Post">
         INSERT INTO post
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="create_time != null ">
+            <if test="createTime != null ">
                 create_time,
             </if>
             <if test="title != null ">
@@ -38,22 +38,22 @@
             <if test="content != null ">
                 content,
             </if>
-            <if test="update_time != null ">
+            <if test="updateTime != null ">
                 update_time,
             </if>
-            <if test="top_status != null ">
+            <if test="topStatus != null ">
                 top_status,
             </if>
-            <if test="best_status != null ">
+            <if test="bestStatus != null ">
                 best_status,
             </if>
-            <if test="user_id != null ">
+            <if test="userId != null ">
                 user_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="create_time != null ">
-                #{create_time},
+            <if test="createTime != null ">
+                #{createTime},
             </if>
             <if test="title != null ">
                 #{title},
@@ -61,100 +61,98 @@
             <if test="content != null ">
                 #{content},
             </if>
-            <if test="update_time != null ">
-                #{update_time},
+            <if test="updateTime != null ">
+                #{updateTime},
             </if>
-            <if test="top_status != null ">
-                #{top_status},
+            <if test="topStatus != null ">
+                #{topStatus},
             </if>
-            <if test="best_status != null ">
-                #{best_status},
+            <if test="bestStatus != null ">
+                #{bestStatus},
             </if>
-            <if test="user_id != null ">
-                #{user_id},
+            <if test="userId != null ">
+                #{userId},
             </if>
         </trim>
 
     </insert>
 
     <delete id="delete" parameterType="java.lang.Long">
-        DELETE FROM post WHERE id = #{id}
+        DELETE FROM post WHERE id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <select id="selectParam" resultMap="objects" parameterType="java.lang.Long">
+    <delete id="deleteBatch" parameterType="java.util.List" >
+        DELETE FROM post
+        WHERE id IN (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{list[${index}]}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update" parameterType="com.geetion.tieba.pojo.Post">
+    UPDATE post
+        <trim suffixOverrides=",">
+            <set>
+                <if test="createTime != null ">
+                    create_time = #{createTime},
+                </if>
+                <if test="title != null ">
+                    title = #{title},
+                </if>
+                <if test="content != null ">
+                    content = #{content},
+                </if>
+                <if test="updateTime != null ">
+                    update_time = #{updateTime},
+                </if>
+                <if test="topStatus != null ">
+                    top_status = #{topStatus},
+                </if>
+                <if test="bestStatus != null ">
+                    best_status = #{bestStatus},
+                </if>
+                <if test="userId != null ">
+                    user_id = #{userId},
+                </if>
+            </set>
+        </trim>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectPK" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
-        <include refid="tableProperty" />
+          <include refid="tableProperty" />
         FROM post
         WHERE id = #{id}
     </select>
 
-    <update id="updateParam" parameterType="com.geetion.bbc.pojo.Notice">
-        UPDATE post
-        <trim suffixOverrides=",">
-            <set>
-                <if test="create_time != null ">
-                    create_time,
-                </if>
-                <if test="title != null ">
-                    title,
-                </if>
-                <if test="content != null ">
-                    content,
-                </if>
-                <if test="update_time != null ">
-                    update_time,
-                </if>
-                <if test="top_status != null ">
-                    top_status,
-                </if>
-                <if test="best_status != null ">
-                    best_status,
-                </if>
-                <if test="user_id != null ">
-                    user_id,
-                </if>
-            </set>
-        </trim>
-        <if test="id != null" >
-            WHERE id = #{id}
-        </if>
-    </update>
-
-  <!--  <select id="selectParam" parameterType="java.util.Map" resultMap="objects">
+    <select id="selectByClient" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
         <include refid="tableProperty" />
-        FROM bbc_notice
-        <trim prefix="where" prefixOverrides="and|or" >
-            <if test="id != null">
-                id = #{id}
-            </if>
-            <if test="title != null">
-                and title = #{title}
-            </if>
-            <if test="content != null">
-                and content = #{content}
-            </if>
-            <if test="adminId != null">
-                and admin_id = #{adminId}
-            </if>
-        </trim>
-        ORDER BY bbc_notice.create_time DESC
-    </select>-->
+        FROM post
+        WHERE user_id = #{clientId}
+    </select>
 
-    <!--<select id="select" resultMap="objects" >-->
+    <!--<select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">-->
         <!--SELECT-->
         <!--<include refid="tableProperty" />-->
-        <!--FROM post-->
-        <!--ORDER BY post.create_time DESC-->
+        <!--FROM bbc_notice-->
+        <!--<trim prefix="where" prefixOverrides="and|or" >-->
+            <!--<if test="id != null">-->
+                <!--id = #{id}-->
+            <!--</if>-->
+            <!--<if test="title != null">-->
+                <!--and title = #{title}-->
+            <!--</if>-->
+            <!--<if test="content != null">-->
+                <!--and content = #{content}-->
+            <!--</if>-->
+            <!--<if test="adminId != null">-->
+                <!--and admin_id = #{adminId}-->
+            <!--</if>-->
+        <!--</trim>-->
+        <!--ORDER BY bbc_notice.create_time DESC-->
     <!--</select>-->
-
-    <!--<delete id="deleteBatch" parameterType="java.util.List" >-->
-        <!--DELETE FROM bbc_notice-->
-        <!--WHERE id IN (-->
-        <!--<foreach collection="list" item="item" index="index" separator=",">-->
-            <!--#{list[${index}]}-->
-        <!--</foreach>-->
-        <!--)-->
-    <!--</delete>-->
 
 </mapper>

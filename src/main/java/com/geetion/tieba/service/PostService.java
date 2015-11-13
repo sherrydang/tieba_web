@@ -2,6 +2,8 @@ package com.geetion.tieba.service;
 
 import com.geetion.tieba.pojo.Post;
 
+import java.util.List;
+
 /**
  * Created by sherry on 2015/11/12.
  */
@@ -15,17 +17,23 @@ public interface PostService {
     public boolean insert(Post object);
 
     /**
-     * 删除帖子
+     * 批量删除帖子
      */
-    public boolean delete(Post object);
+    public int deleteBatch(List<Long> list);
 
     /**
      * 修改帖子
      */
-    public boolean update(Post object);
+    public boolean updateById(Post object);
 
     /**
-     * 查找帖子
+     * 根据id查找帖子
      */
-    public Post search(Long id);
+    public Post selectById(Long id);
+
+    /**
+     * 查找用户发帖
+     */
+    public List<Post> getPostByClient(Long clientId);
+
 }
