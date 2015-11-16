@@ -1,6 +1,8 @@
 package com.geetion.tieba.service;
 
 import com.geetion.tieba.pojo.Post;
+import com.geetion.tieba.utils.mybatis.PageEntity;
+import com.geetion.tieba.utils.mybatis.PagingResult;
 
 import java.util.List;
 
@@ -9,17 +11,14 @@ import java.util.List;
  */
 public interface PostService {
     /**
-     * 增加新帖
-     *
-     * @param object
-     * @return
+     * 新增一条帖子
      */
     public boolean insert(Post object);
 
     /**
-     * 批量删除帖子
+     * 删除一条帖子
      */
-    public int deleteBatch(List<Long> list);
+    public boolean delete(Long id);
 
     /**
      * 修改帖子
@@ -27,13 +26,23 @@ public interface PostService {
     public boolean updateById(Post object);
 
     /**
-     * 根据id查找帖子
+     * 根据主键查找帖子
      */
     public Post selectById(Long id);
 
     /**
-     * 查找用户发帖
+     * 根据用户id查找帖子
      */
-    public List<Post> getPostByClient(Long clientId);
+    public List<Post> getPostByClient(Long userId);
+
+    /**
+     * 分页查询帖子
+     */
+    public PagingResult<Post> getPostByParams(PageEntity pageEntity);
+
+    /**
+     * 批量删除帖子
+     */
+    public int deleteBatch(List<Long> list);
 
 }

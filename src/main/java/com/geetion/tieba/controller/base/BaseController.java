@@ -307,7 +307,7 @@ public abstract class BaseController {
                     str.append(pojoFormat(entity, null));
                     value = str;
                 }
-                map.put(filedName, value.toString());
+                map.put(filedName, "".equals(value.toString()) ? null : value.toString());
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

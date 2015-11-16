@@ -25,29 +25,29 @@ public class PostControllerImpl extends BaseWebController implements PostControl
     private PostService postService;
 
     @Override
-    public Object getPostByParms(Integer methodType, @ModelAttribute PageEntity pageEntity, Long id, Long UserId, @ModelAttribute Post object) {
+    public Object getPostByParms(Integer methodType, @ModelAttribute PageEntity pageEntity, Long id, Long userId, @ModelAttribute Post object) {
         HashMap<String, Object> resultMap = new HashMap<>();
         if (methodType != null) {
             switch (methodType) {
                 case 1:
-                    List<Post> list = postService.getPostByClient(UserId);
+                    List<Post> list = postService.getPostByClient(userId);
                     resultMap.put("list", list);
                     break;
                 case 2:
                     Post post = null;
                     if (id != null)
-                        post = postService.selectById(id);
+                    post = postService.selectById(id);
                     resultMap.put("object", post);
                     break;
-                /*case 3:
+                case 3:
                     if (pageEntity != null)
                         pageEntity.setParams(pojoToMap(object));
-                    PagingResult<Post> pagingForKeyword = postService.getPostWithClient(pageEntity);
+                    PagingResult<Post> pagingForKeyword = postService.getPostByParams(pageEntity);
                     resultMap.put("list", pagingForKeyword.getResultList());
                     resultMap.put("totalPage", pagingForKeyword.getTotalPage());
                     resultMap.put("totalSize", pagingForKeyword.getTotalSize());
                     resultMap.put("currentPage", pagingForKeyword.getCurrentPage());
-                    break;*/
+                    break;
             }
             return sendResult(ResultCode.CODE_200.code, ResultCode.CODE_200.msg, resultMap);
         }

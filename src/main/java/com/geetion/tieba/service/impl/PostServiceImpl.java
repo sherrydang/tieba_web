@@ -3,6 +3,10 @@ package com.geetion.tieba.service.impl;
 import com.geetion.tieba.dao.PostDAO;
 import com.geetion.tieba.pojo.Post;
 import com.geetion.tieba.service.PostService;
+import com.geetion.tieba.utils.mybatis.PageEntity;
+import com.geetion.tieba.utils.mybatis.PagingResult;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +32,11 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public boolean delete(Long id) {
+        return postDAO.delete(id) > 0;
+    }
+
+    @Override
     public int deleteBatch(List<Long> list) {
         return postDAO.deleteBatch(list);
     }
@@ -43,9 +52,17 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> getPostByClient(Long clientId) {
-//        return postDAO.selectByClient(clientId);
-        return null;
+    public List<Post> getPostByClient(Long userId) {
+        return postDAO.selectByClient(userId);
     }
+
+    @Override
+    public PagingResult<Post> getPostByParams(PageEntity pageEntity) {
+        PageHelper.startPage(pageEntity.getPage(), pageEntity.getSize());
+        List<Post> list = postDAO.selectParam(pageEntity.getParams());
+        PageInfo<Post> pager = new PageInfo(list);
+        return new PagingResult<>(pager.getPageNum(), pager.getTotal(), pager.getPages(), pager.getList());
+    }
+
 
 }

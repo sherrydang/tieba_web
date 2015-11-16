@@ -1,5 +1,7 @@
 package com.geetion.tieba.utils.mybatis;
 
+import com.geetion.tieba.pojo.Post;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +12,18 @@ public class PagingResult<T> {
     //当前页
     private int currentPage;
     //总共记录条数
-    private int totalSize;
+    private long totalSize;
     //总共页数
     private int totalPage;
     //结果集
     private List<T> resultList = new ArrayList<T>();
 
+    public PagingResult(int currentPage, long totalSize, int totalPage, List<T> resultList){
+        this.currentPage = currentPage;
+        this.totalSize = totalSize;
+        this.totalPage = totalPage;
+        this.resultList = resultList;
+    }
 
     public int getCurrentPage() {
         return currentPage;
@@ -25,7 +33,7 @@ public class PagingResult<T> {
         this.currentPage = currentPage;
     }
 
-    public int getTotalSize() {
+    public long getTotalSize() {
         return totalSize;
     }
 

@@ -4,13 +4,13 @@
     <resultMap type="com.geetion.tieba.pojo.Post" id="BaseResultMap">
 
         <id property="id" column="post_id"/>
-        <result property="create_time" column="post_create_time"/>
+        <result property="createTime" column="post_create_time"/>
         <result property="title" column="post_title"/>
         <result property="content" column="post_content"/>
-        <result property="update_time" column="post_update_time"/>
-        <result property="top_status" column="post_top_status"/>
-        <result property="best_status" column="post_best_status"/>
-        <result property="user_id" column="post_user_id"/>
+        <result property="updateTime" column="post_update_time"/>
+        <result property="topStatus" column="post_top_status"/>
+        <result property="bestStatus" column="post_best_status"/>
+        <result property="userId" column="post_user_id"/>
 
     </resultMap>
 
@@ -18,9 +18,10 @@
         id as post_id,
         create_time as post_create_time,
         title as post_title,
+        content as post_content,
         update_time as post_update_time,
         top_status as post_top_status,
-        best_status as post_best_status
+        best_status as post_best_status,
         user_id as post_user_id
     </sql>
 
@@ -120,39 +121,47 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
 
-    <select id="selectPK" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        SELECT
-          <include refid="tableProperty" />
-        FROM post
-        WHERE id = #{id}
-    </select>
-
     <select id="selectByClient" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
         <include refid="tableProperty" />
         FROM post
-        WHERE user_id = #{clientId}
+        <if test="userId!=null">
+            WHERE user_id = #{userId}
+        </if>
     </select>
 
-    <!--<select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">-->
-        <!--SELECT-->
-        <!--<include refid="tableProperty" />-->
-        <!--FROM bbc_notice-->
-        <!--<trim prefix="where" prefixOverrides="and|or" >-->
-            <!--<if test="id != null">-->
-                <!--id = #{id}-->
-            <!--</if>-->
-            <!--<if test="title != null">-->
-                <!--and title = #{title}-->
-            <!--</if>-->
-            <!--<if test="content != null">-->
-                <!--and content = #{content}-->
-            <!--</if>-->
-            <!--<if test="adminId != null">-->
-                <!--and admin_id = #{adminId}-->
-            <!--</if>-->
-        <!--</trim>-->
-        <!--ORDER BY bbc_notice.create_time DESC-->
-    <!--</select>-->
+    <select id="selectPk" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="tableProperty" />
+        FROM post
+        <if test="_parameter!=null">
+            WHERE id = #{_parameter}
+        </if>
+    </select>
 
+<!--    <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="tableProperty" />
+        FROM post
+    </select>-->
+    <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="tableProperty" />
+        FROM post
+        <trim prefix="where" prefixOverrides="and|or" >
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="title != null">
+                and title LIKE concat('%',#{title},'%')
+            </if>
+            <if test="content != null">
+                and content LIKE concat('%',#{content},'%')
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </trim>
+        ORDER BY post.create_time DESC
+    </select>
 </mapper>
