@@ -8,6 +8,9 @@ import java.util.Date;
 public class Comment {
     private Long id;
     private String content;
+    private Long fromId;
+    private Long replyId;
+    private Long toId;
     private Date createTime;
     private Date updateTime;
 
@@ -27,12 +30,36 @@ public class Comment {
         this.createTime = createTime;
     }
 
+    public Long getFromId() {
+        return fromId;
+    }
+
+    public void setFromId(Long fromId) {
+        this.fromId = fromId;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getReplyId() {
+        return replyId;
+    }
+
+    public void setReplyId(Long replyId) {
+        this.replyId = replyId;
+    }
+
+    public Long getToId() {
+        return toId;
+    }
+
+    public void setToId(Long toId) {
+        this.toId = toId;
     }
 
     public Date getUpdateTime() {

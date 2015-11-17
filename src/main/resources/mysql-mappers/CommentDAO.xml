@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geetion.tieba.dao.CommentDAO">
+    <resultMap type="com.geetion.tieba.pojo.Comment" id="BaseResultMap">
+
+        <id property="id" column="comment_id"/>
+        <result property="createTime" column="comment_create_time"/>
+        <result property="content" column="comment_content"/>
+        <result property="updateTime" column="comment_update_time"/>
+        <result property="replyId" column="comment_reply_id"/>
+        <result property="fromId" column="comment_from_id"/>
+        <result property="toId" column="comment_to_id"/>
+
+    </resultMap>
+
+    <sql id="tableProperty">
+        id as comment_id,
+        create_time as comment_create_time,
+        content as comment_content,
+        update_time as comment_update_time,
+        reply_id as comment_reply_id,
+        from_id as comment_from_id,
+        to_id as comment_to_id
+    </sql>
+
+
+
+    <insert id="insert" parameterType="com.geetion.tieba.pojo.Comment">
+        INSERT INTO comment
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="content != null ">
+                content,
+            </if>
+            <if test="replyId != null ">
+                reply_id,
+            </if>
+            <if test="fromId != null ">
+                from_id,
+            </if>
+            <if test="toId != null ">
+                to_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null ">
+                #{content},
+            </if>
+            <if test="replyId != null ">
+                #{replyId},
+            </if>
+            <if test="fromId != null ">
+                #{fromId},
+            </if>
+            <if test="toId != null ">
+                #{toId},
+            </if>
+        </trim>
+
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM comment WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteBatch" parameterType="java.util.List" >
+        DELETE FROM comment
+        WHERE id IN (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{list[${index}]}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update" parameterType="com.geetion.tieba.pojo.Comment">
+        UPDATE comment
+        <trim suffixOverrides=",">
+            <set>
+                <if test="content != null ">
+                    content = #{content},
+                </if>
+                <if test="updateTime != null ">
+                    update_time = #{updateTime},
+                </if>
+                <if test="replyId != null ">
+                    reply_id = #{replyId},
+                </if>
+                <if test="fromId != null ">
+                    from_id = #{fromId},
+                </if>
+                <if test="toId != null ">
+                    to_id = #{toId},
+                </if>
+            </set>
+        </trim>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByClient" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="tableProperty" />
+        FROM comment
+        <if test="userId!=null">
+            WHERE from_id = #{userId}
+        </if>
+        ORDER BY comment.create_time DESC
+    </select>
+
+    <select id="selectPk" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="tableProperty" />
+        FROM comment
+        <if test="_parameter!=null">
+            WHERE id = #{_parameter}
+        </if>
+    </select>
+
+    <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="tableProperty" />
+        FROM comment
+        <trim prefix="where" prefixOverrides="and|or" >
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="content != null">
+                and content LIKE concat('%',#{content},'%')
+            </if>
+            <if test="replyId != null">
+                and reply_id = #{replyId}
+            </if>
+            <if test="fromId != null">
+                and from_id = #{fromId}
+            </if>
+            <if test="toId != null">
+                and to_id = #{toId}
+            </if>
+        </trim>
+        ORDER BY comment.create_time DESC
+    </select>
+</mapper>

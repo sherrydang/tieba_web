@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geetion.tieba.dao.ReplyDAO">
+    <resultMap type="com.geetion.tieba.pojo.Reply" id="BaseResultMap">
+
+        <id property="id" column="reply_id"/>
+        <result property="createTime" column="reply_create_time"/>
+        <result property="content" column="reply_content"/>
+        <result property="updateTime" column="reply_update_time"/>
+        <result property="postId" column="reply_post_id"/>
+        <result property="userId" column="reply_user_id"/>
+
+    </resultMap>
+
+    <sql id="tableProperty">
+        id as reply_id,
+        create_time as reply_create_time,
+        content as reply_content,
+        update_time as reply_update_time,
+        post_id as reply_post_id,
+        user_id as reply_user_id
+    </sql>
+
+
+
+    <insert id="insert" parameterType="com.geetion.tieba.pojo.Reply">
+        INSERT INTO reply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="createTime != null ">
+                create_time,
+            </if>
+            <if test="content != null ">
+                content,
+            </if>
+            <if test="updateTime != null ">
+                update_time,
+            </if>
+            <if test="postId != null ">
+                post_id,
+            </if>
+            <if test="userId != null ">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null ">
+                #{createTime},
+            </if>
+            <if test="content != null ">
+                #{content},
+            </if>
+            <if test="updateTime != null ">
+                #{updateTime},
+            </if>
+            <if test="postId != null ">
+                #{postId},
+            </if>
+            <if test="userId != null ">
+                #{userId},
+            </if>
+        </trim>
+
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM reply WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteBatch" parameterType="java.util.List" >
+        DELETE FROM reply
+        WHERE id IN (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{list[${index}]}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update" parameterType="com.geetion.tieba.pojo.Reply">
+        UPDATE reply
+        <trim suffixOverrides=",">
+            <set>
+                <if test="createTime != null ">
+                    create_time = #{createTime},
+                </if>
+                <if test="content != null ">
+                    content = #{content},
+                </if>
+                <if test="updateTime != null ">
+                    update_time = #{updateTime},
+                </if>
+                <if test="postId != null ">
+                    post_id = #{postId},
+                </if>
+                <if test="userId != null ">
+                    user_id = #{userId},
+                </if>
+            </set>
+        </trim>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByClient" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="tableProperty" />
+        FROM reply
+        <if test="userId!=null">
+            WHERE user_id = #{userId}
+        </if>
+        ORDER BY reply.create_time DESC
+    </select>
+
+    <select id="selectPk" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="tableProperty" />
+        FROM reply
+        <if test="_parameter!=null">
+            WHERE id = #{_parameter}
+        </if>
+    </select>
+
+    <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="tableProperty" />
+        FROM reply
+        <trim prefix="where" prefixOverrides="and|or" >
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="content != null">
+                and content LIKE concat('%',#{content},'%')
+            </if>
+            <if test="postId != null">
+                and post_id = #{postId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </trim>
+        ORDER BY reply.create_time DESC
+    </select>
+</mapper>
