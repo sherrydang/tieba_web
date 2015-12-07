@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="col-md-9 post-container">
+    <!--<div ng-repeat="post in postList"></div>-->
+    <div class="link" ng-repeat="post in postList">
+        <div class="midcol unvoted">
+            <div class="arrow up login-required access-required" data-event-action="upvote" role="button" aria-label="upvote" tabindex="0">
+            </div>
+            <!--<div class="score dislikes">40</div>-->
+            <div class="score unvoted">{{post.data.ups}}</div>
+            <!--<div class="score likes">42</div>-->
+            <div class="arrow down login-required access-required" data-event-action="downvote" role="button" aria-label="downvote" tabindex="0">
+            </div>
+        </div>
+        <div class="entry">
+            <p class="title">
+                <a class="" href="" tabindex="1">
+                    {{post.data.title}}
+                </a>
+            <span class="domain">(
+                <a href="">self.Android</a>)
+            </span>
+            </p>
+            <!--<div class="expando-button collapsed selftext"></div>-->
+            <p class="tagline">Submitted
+                <time title="Mon Dec 7 06:48:03 2015 UTC" datetime="2015-12-07T06:48:03+00:00" class="live-timestamp">
+                    an hour ago
+                </time> by
+                <a href="https://www.reddit.com/user/shmerham" class="author may-blank id-t2_r5ti5">{{post.data.author}}</a>
+            </p>
+            <ul class="flat-list buttons pocket-inserted">
+                <li class="first">
+                    <a href="https://www.reddit.com/r/Android/comments/3vrg87/is_this_a_material_design_thing/" class="comments may-blank">6 comments</a></li>
+                <li class="share">
+                    <a class="post-sharing-button" href="javascript: void 0;">share</a>
+                </li>
+                <li class="link-save-button save-button"><a href="#">save</a></li>
+                <li>
+                    <form action="/post/hide" method="post" class="state-button hide-button">
+                        <input type="hidden" name="executed" value="hidden">
+                        <span><a href="javascript:void(0)" class=" " onclick="change_state(this, 'hide', hide_thing);">hide</a></span>
+                    </form>
+                </li>
+                <li class="report-button">
+                    <a href="javascript:void(0)" class="action-thing reportbtn access-required" data-event-action="report">report</a>
+                </li>
+                <li>
+                    <a class="pocket-reddit-button" href="#">pocket</a>
+                </li>
+            </ul>
+            <div class="reportform report-t3_3vrg87"></div>
+            <!--<div class="expando" style="display: none">-->
+            <!--<span class="error">loading...</span>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<div class="col-md-3 tieba-info">bbb</div>
+</body>
+</html>

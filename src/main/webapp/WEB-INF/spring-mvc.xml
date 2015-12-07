@@ -54,7 +54,7 @@
 
     <!-- 定义无Controller的path<->view直接映射 -->
     <mvc:resources location="resource" mapping="/**"/>
-    <mvc:view-controller path="/" view-name="redirect:/login"/>
+    <mvc:view-controller path="/" view-name="redirect:/"/>
     <!-- 将无法mapping到Controller的path交给default servlet handler处理 -->
     <mvc:default-servlet-handler default-servlet-name="/error"></mvc:default-servlet-handler>
 

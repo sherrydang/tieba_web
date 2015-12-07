@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+/*==============================================
+    GENERAL  STYLES
+    =============================================*/
+html * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+/*p {
+    margin: 0;
+}*/
+.col-md-9{
+    padding: 0;
+}
+
+*, *:after, *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+
+body {
+    font-size: 100%;
+    font-family: 'Helvetica Neue',Helvetica,Arial,"Hiragino Sans GB",STHeiti Light ,"Microsoft YaHei",STHeiti,"Wenquanyi Micro Hei",sans-serif;
+    color: #3d3536;
+    background-color: #fff;
+}
+
+body, html {
+    width:100%;
+    height: 100%;
+}
+
+a {
+    color: #6C6C6C;
+    text-decoration: none;
+}
+
+
+img {
+    border:0;
+}
+
+ul, li {
+    list-style:none;
+}
+
+a {
+    text-decoration:none;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+ul{
+    margin: 0;
+}
+
+.clear{
+    clear:both;
+    visibility:hidden;
+    display:block;
+    height:0;
+    font-size:0;
+}
+/* GENERAL STYLES END */
