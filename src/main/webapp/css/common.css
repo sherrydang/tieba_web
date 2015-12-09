@@ -5,11 +5,13 @@
     =============================================*/
 html * {
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
-/*p {
-    margin: 0;
-}*/
+body {
+    background-color:#eee;
+    font: normal x-small verdana, arial, helvetica, sans-serif;
+    min-height: 2600px;
+}
+
 .col-md-9{
     padding: 0;
 }
@@ -22,20 +24,21 @@ html * {
     padding:0;
 }
 
-body {
-    font-size: 100%;
-    font-family: 'Helvetica Neue',Helvetica,Arial,"Hiragino Sans GB",STHeiti Light ,"Microsoft YaHei",STHeiti,"Wenquanyi Micro Hei",sans-serif;
-    color: #3d3536;
-    background-color: #fff;
-}
-
 body, html {
     width:100%;
     height: 100%;
 }
 
 a {
-    color: #6C6C6C;
+    color: #525252;
+    text-decoration: none;
+}
+
+a:hover{
+    color:#1976D2;
+    text-decoration: none;
+}
+a:visited, a:focus{
     text-decoration: none;
 }
 
