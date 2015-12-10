@@ -1,0 +1,201 @@
+<div class="col-lg-10 theme-default">
+
+    <!-- Form -->
+    <div class="panel form-horizontal">
+        <form name="newtopicform" id="newtopicform" action="/forum/create_topic.php" method="post" validate="true"
+              data-fn-submit="saveTopic" novalidate="novalidate">
+            <input type="hidden" name="action" value="create-topic"> <input type="hidden" name="category" id="category"
+                                                                            value="27">
+
+            <div class="panel-heading">
+                <span class="panel-title">Create a New Topic</span>
+            </div>
+
+            <div class="panel-body">
+
+                <!-- Title -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Title:</label>
+
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control require-validation" id="title" name="title"
+                               maxlength="500" value="" placeholder="Title of topic should be clear and descriptive...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Title:</label>
+
+                    <div class="col-sm-8">
+				<textarea name="bbcode_field" style="height: 300px; width: 600px; display: none;">[center][size=3][b]BBCode SCEditor[/b][/size][/center]
+
+Give it a try! :)
+
+[color=#ff00]Red text! [/color][color=#3399ff]Blue?[/color]
+
+[ul][li]A simple list[/li][li]list item 2[/li][/ul]
+
+If you are using IE9+ or any non-IE browser just type [b]:[/b]) and it should be converted into :) as you type.</textarea>
+
+                        <div class="sceditor-container ltr" style="width: 750px; height: auto;">
+                            <div class="sceditor-toolbar" unselectable="on">
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-bold"
+                                                               data-sceditor-command="bold" unselectable="on"
+                                                               title="Bold(ctrl+b)">
+                                    <div unselectable="on">Bold</div>
+                                </a><a class="sceditor-button sceditor-button-italic" data-sceditor-command="italic"
+                                       unselectable="on" title="Italic(ctrl+i)">
+                                    <div unselectable="on">Italic</div>
+                                </a><a class="sceditor-button sceditor-button-underline"
+                                       data-sceditor-command="underline" unselectable="on"
+                                       title="Underline(ctrl+u)">
+                                    <div unselectable="on">Underline</div>
+                                </a><a class="sceditor-button sceditor-button-strike" data-sceditor-command="strike"
+                                       unselectable="on" title="Strikethrough">
+                                    <div unselectable="on">Strikethrough</div>
+                                </a><a class="sceditor-button sceditor-button-subscript"
+                                       data-sceditor-command="subscript" unselectable="on" title="Subscript">
+                                    <div unselectable="on">Subscript</div>
+                                </a><a class="sceditor-button sceditor-button-superscript"
+                                       data-sceditor-command="superscript" unselectable="on" title="Superscript">
+                                    <div unselectable="on">Superscript</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-left active"
+                                                               data-sceditor-command="left" unselectable="on"
+                                                               title="Align left">
+                                    <div unselectable="on">Align left</div>
+                                </a><a class="sceditor-button sceditor-button-center" data-sceditor-command="center"
+                                       unselectable="on" title="Center">
+                                    <div unselectable="on">Center</div>
+                                </a><a class="sceditor-button sceditor-button-right" data-sceditor-command="right"
+                                       unselectable="on" title="Align right">
+                                    <div unselectable="on">Align right</div>
+                                </a><a class="sceditor-button sceditor-button-justify"
+                                       data-sceditor-command="justify" unselectable="on" title="Justify">
+                                    <div unselectable="on">Justify</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-font"
+                                                               data-sceditor-command="font" unselectable="on"
+                                                               title="Font Name">
+                                    <div unselectable="on">Font Name</div>
+                                </a><a class="sceditor-button sceditor-button-size" data-sceditor-command="size"
+                                       unselectable="on" title="Font Size">
+                                    <div unselectable="on">Font Size</div>
+                                </a><a class="sceditor-button sceditor-button-color" data-sceditor-command="color"
+                                       unselectable="on" title="Font Color">
+                                    <div unselectable="on">Font Color</div>
+                                </a><a class="sceditor-button sceditor-button-removeformat disabled"
+                                       data-sceditor-command="removeformat" unselectable="on"
+                                       title="Remove Formatting">
+                                    <div unselectable="on">Remove Formatting</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-cut disabled"
+                                                               data-sceditor-command="cut" unselectable="on"
+                                                               title="Cut">
+                                    <div unselectable="on">Cut</div>
+                                </a><a class="sceditor-button sceditor-button-copy disabled"
+                                       data-sceditor-command="copy" unselectable="on" title="Copy">
+                                    <div unselectable="on">Copy</div>
+                                </a><a class="sceditor-button sceditor-button-paste disabled"
+                                       data-sceditor-command="paste" unselectable="on" title="Paste">
+                                    <div unselectable="on">Paste</div>
+                                </a><a class="sceditor-button sceditor-button-pastetext"
+                                       data-sceditor-command="pastetext" unselectable="on" title="Paste Text">
+                                    <div unselectable="on">Paste Text</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-bulletlist"
+                                                               data-sceditor-command="bulletlist" unselectable="on"
+                                                               title="Bullet list">
+                                    <div unselectable="on">Bullet list</div>
+                                </a><a class="sceditor-button sceditor-button-orderedlist"
+                                       data-sceditor-command="orderedlist" unselectable="on" title="Numbered list">
+                                    <div unselectable="on">Numbered list</div>
+                                </a><a class="sceditor-button sceditor-button-indent disabled"
+                                       data-sceditor-command="indent" unselectable="on" title="Add indent">
+                                    <div unselectable="on">Add indent</div>
+                                </a><a class="sceditor-button sceditor-button-outdent disabled"
+                                       data-sceditor-command="outdent" unselectable="on" title="Remove one indent">
+                                    <div unselectable="on">Remove one indent</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-table"
+                                                               data-sceditor-command="table" unselectable="on"
+                                                               title="Insert a table">
+                                    <div unselectable="on">Insert a table</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-code"
+                                                               data-sceditor-command="code" unselectable="on"
+                                                               title="Code">
+                                    <div unselectable="on">Code</div>
+                                </a><a class="sceditor-button sceditor-button-quote" data-sceditor-command="quote"
+                                       unselectable="on" title="Insert a Quote">
+                                    <div unselectable="on">Insert a Quote</div>
+                                </a></div>
+                                <div class="sceditor-group"><a
+                                        class="sceditor-button sceditor-button-horizontalrule"
+                                        data-sceditor-command="horizontalrule" unselectable="on"
+                                        title="Insert a horizontal rule">
+                                    <div unselectable="on">Insert a horizontal rule</div>
+                                </a><a class="sceditor-button sceditor-button-image" data-sceditor-command="image"
+                                       unselectable="on" title="Insert an image">
+                                    <div unselectable="on">Insert an image</div>
+                                </a><a class="sceditor-button sceditor-button-email" data-sceditor-command="email"
+                                       unselectable="on" title="Insert an email">
+                                    <div unselectable="on">Insert an email</div>
+                                </a><a class="sceditor-button sceditor-button-link" data-sceditor-command="link"
+                                       unselectable="on" title="Insert a link">
+                                    <div unselectable="on">Insert a link</div>
+                                </a><a class="sceditor-button sceditor-button-unlink disabled"
+                                       data-sceditor-command="unlink" unselectable="on" title="Unlink">
+                                    <div unselectable="on">Unlink</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-emoticon"
+                                                               data-sceditor-command="emoticon" unselectable="on"
+                                                               title="Insert an emoticon">
+                                    <div unselectable="on">Insert an emoticon</div>
+                                </a><a class="sceditor-button sceditor-button-youtube"
+                                       data-sceditor-command="youtube" unselectable="on"
+                                       title="Insert a YouTube video">
+                                    <div unselectable="on">Insert a YouTube video</div>
+                                </a><a class="sceditor-button sceditor-button-date" data-sceditor-command="date"
+                                       unselectable="on" title="Insert current date">
+                                    <div unselectable="on">Insert current date</div>
+                                </a><a class="sceditor-button sceditor-button-time" data-sceditor-command="time"
+                                       unselectable="on" title="Insert current time">
+                                    <div unselectable="on">Insert current time</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-ltr"
+                                                               data-sceditor-command="ltr" unselectable="on"
+                                                               title="Left-to-Right">
+                                    <div unselectable="on">Left-to-Right</div>
+                                </a><a class="sceditor-button sceditor-button-rtl" data-sceditor-command="rtl"
+                                       unselectable="on" title="Right-to-Left">
+                                    <div unselectable="on">Right-to-Left</div>
+                                </a></div>
+                                <div class="sceditor-group"><a class="sceditor-button sceditor-button-print"
+                                                               data-sceditor-command="print" unselectable="on"
+                                                               title="Print">
+                                    <div unselectable="on">Print</div>
+                                </a><a class="sceditor-button sceditor-button-maximize"
+                                       data-sceditor-command="maximize" unselectable="on"
+                                       title="Maximize(ctrl+shift+m)">
+                                    <div unselectable="on">Maximize</div>
+                                </a><a class="sceditor-button sceditor-button-source" data-sceditor-command="source"
+                                       unselectable="on" title="View source(ctrl+shift+s)">
+                                    <div unselectable="on">View source</div>
+                                </a></div>
+                            </div>
+                            <iframe frameborder="0" allowfullscreen="true"
+                                    style="width: 740px; height: 442px;"></iframe>
+                            <textarea dir="ltr" style="display: none; width: 740px; height: 442px;"></textarea>
+
+                            <div class="sceditor-grip"></div>
+                            <div class="sceditor-resize-cover" style="display: none;"></div>
+                        </div>
+
+                        <p>If you are using IE9+ or any other browser then it should automatically replace
+                            :) and other emoticon codes with theit emoticon images.</p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
