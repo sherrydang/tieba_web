@@ -2,7 +2,7 @@ define(['angularAMD', 'angularRoute', 'ngGrid', 'angularUI', 'filter/filter', 'd
     'use strict';
     var app = angular.module("ad", ['ngRoute', 'ui', 'ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.pagination', 'ui.grid.expandable', 'ui.grid.selection', 'ui.grid.pinning']);
 
-    app.value("data_host", "http://localhost:8080");
+    app.value("data_host", "http://localhost:8080/");
 
     app.config(function ($routeProvider) {
         $routeProvider

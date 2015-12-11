@@ -22,13 +22,13 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    data-target="#/bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="#/">
                 <img class="header-img" src="images/icons.png">
                 <img class="header-img2" src="images/brand-logo.png">
             </a>
@@ -37,9 +37,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">hot <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">new</a></li>
-                <li><a href="#">promoted</a></li>
+                <li class="active"><a href="#/">hot <span class="sr-only">(current)</span></a></li>
+                <li><a href="#/">new</a></li>
+                <li><a href="#/">promoted</a></li>
             </ul>
             <span class="navbar-header-right pull-right">Want to join? <a>Log in or sign up</a> in seconds.&nbsp|&nbsp<span
                     class="setting-icon"></span></span>
@@ -95,24 +95,11 @@
 </body>
 </html>
 <!-- JQUERY SCRIPTS -->
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<!--<script src="js/lib/jquery/jquery.js"></script>-->
+<script src="js/lib/jquery/jquery.js"></script>
+<script src="js/lib/minified/jquery.sceditor.bbcode.min.js"></script>
 <!-- SWEET ALERT-->
 <script src="js/lib/sweetalert/sweet-alert.min.js"></script>
 <!-- BOOTSTRAP SCRIPTS -->
 <script src="js/lib/bootstrap/bootstrap.min.js"></script>
 <!-- REQUIREJS SCRIPTS -->
 <script data-main="js/scripts/main.js" src="js/lib/requirejs/require.js"></script>
-<!-- Include the editors JS -->
-<script type="text/javascript" src="js/lib/minified/jquery.sceditor.bbcode.min.js"></script>
-<script type="text/javascript" src="js/lib/minified/jquery.sceditor.xhtml.min.js"></script>
-<script>
-    $(function() {
-        // Replace all textarea's
-        // with SCEditor
-        $("textarea").sceditor({
-            plugins: "xhtml",
-            style: "minified/jquery.sceditor.default.min.css"
-        });
-    });
-</script>
