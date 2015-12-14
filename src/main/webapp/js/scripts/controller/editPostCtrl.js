@@ -1,5 +1,5 @@
 /**
- * Created by sherry on 2015/12/7.
+ * Created by sherry on 2015/12/14.
  */
 define([
   'app', 'service/editPostService'
