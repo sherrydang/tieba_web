@@ -1,5 +1,5 @@
 <div class="post-container">
-    <div class="link" ng-repeat="post in postList" ng-class-odd="'strip-even'" ng-class-even="'strip-odd'">
+    <div class="link" ng-repeat="post in postList">
         <div class="vote-span unvoted">
             <div class="arrow up" data-event-action="upvote">
             </div>
@@ -42,7 +42,7 @@
                     <a href="#">save</a>
                 </li>
                 <li>
-                    <form action="/post/hide" method="post">
+                    <form>
                         <input type="hidden" name="executed" value="hidden">
                         <span><a href="javascript:void(0)" class=" " onclick="change_state(this, 'hide', hide_thing);">hide</a></span>
                     </form>
