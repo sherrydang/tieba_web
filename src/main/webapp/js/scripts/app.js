@@ -14,7 +14,7 @@ define(['angularAMD', 'angularRoute', 'ngGrid', 'angularUI', 'filter/filter', 'd
             .when("/edit", angularAMD.route({
                 templateUrl: 'views/editPost.html'
                 , controller: 'EditPostCtrl',
-                controllerUrl: 'controller/editPostCtrl'
+                controllerUrl: 'controller/editPostsCtrl'
             }))
             /*.when("/userDetail/:userId", angularAMD.route({
                 templateUrl: 'views/user_details.html', controller: 'UserDetailsCtrl',
