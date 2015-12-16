@@ -11,15 +11,15 @@ public class Post {
     private String content;
     private Date createTime;
     private Date updateTime;
-    private short topStatus;
-    private short bestStatus;
+    private Short topStatus;
+    private Short bestStatus;
     private Long userId;
 
-    public short getBestStatus() {
+    public Short getBestStatus() {
         return bestStatus;
     }
 
-    public void setBestStatus(short bestStatus) {
+    public void setBestStatus(Short bestStatus) {
         this.bestStatus = bestStatus;
     }
 
@@ -55,11 +55,11 @@ public class Post {
         this.title = title;
     }
 
-    public short getTopStatus() {
+    public Short getTopStatus() {
         return topStatus;
     }
 
-    public void setTopStatus(short topStatus) {
+    public void setTopStatus(Short topStatus) {
         this.topStatus = topStatus;
     }
 
