@@ -21,8 +21,6 @@
         user_id as reply_user_id
     </sql>
 
-
-
     <insert id="insert" parameterType="com.geetion.tieba.pojo.Reply">
         INSERT INTO reply
         <trim prefix="(" suffix=")" suffixOverrides="," >

@@ -10,10 +10,20 @@ function PostCtrl($scope, PostService) {
     $scope.postList = '';
 
 
-    function getAllPost(){
+    /*function getAllPost(){
         PostService.getAllPost().success(function(data){
             $scope.postList = data.data.children;
             console.log($scope.postList);
+        }).error(function(r){
+            console.log(r);
+        });
+    }*/
+
+    //getAllPost();
+
+    function getAllPost(){
+        PostService.getAllPost().success(function(data){
+            $scope.postList = data.list;
         }).error(function(r){
             console.log(r);
         });

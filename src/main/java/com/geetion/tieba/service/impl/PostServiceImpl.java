@@ -47,6 +47,11 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public List<Post> getAllPost() {
+        return postDAO.select();
+    }
+
+    @Override
     public Post selectById(Long id) {
         return postDAO.selectPk(id);
     }

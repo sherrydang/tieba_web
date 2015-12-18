@@ -37,7 +37,7 @@ public class ReplyControllerImpl extends BaseWebController implements ReplyContr
                     Reply reply = null;
                     if (id != null)
                         reply = replyService.selectById(id);
-                    resultMap.put("object", reply);
+                    resultMap.put("list", reply);
                     break;
                 case 3:
                     if (pageEntity != null)

@@ -9,7 +9,7 @@ html * {
 body {
     background-color:#eee;
     color:#333;
-    font: normal 13px verdana, arial, helvetica, sans-serif;
+    font: normal 14px verdana, arial, helvetica, sans-serif;
     min-height: 2600px;
 }
 body, html {
@@ -17,12 +17,16 @@ body, html {
     height: 100%;
 }
 
-.col-md-9{
+.col-md-9, .col-md-10{
     padding: 0;
 }
 
 p{
-    line-height: 1.3333333333333em;
+    line-height: 1.5em;
+}
+
+h3{
+    margin-top:10px;
 }
 
 *, *:after, *:before {

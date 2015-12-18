@@ -4,7 +4,7 @@
             <div class="arrow up" data-event-action="upvote">
             </div>
             <!--<div class="score dislikes">40</div>-->
-            <div class="score unvoted">{{post.data.ups}}</div>
+            <div class="score unvoted">{{post.ups}}</div>
             <!--<div class="score likes">42</div>-->
             <div class="arrow down" data-event-action="downvote">
             </div>
@@ -13,10 +13,10 @@
             <img src="/images/android_icon.png" width="70" height="70" alt="">
         </a>
 
-        <div class="entry">
+        <div class="entry bottom-line">
             <p class="title">
-                <a class="" href="">
-                    {{post.data.title}}
+                <a class="" href="/#/edit/{{post.id}}">
+                    {{post.title}}
                 </a>
             <span class="topic-domain">
                 (<a href="">self.Android</a>)
@@ -29,7 +29,7 @@
                 </time>
                 by
                 <a href="https://www.reddit.com/user/shmerham"
-                   class="author may-blank id-t2_r5ti5">{{post.data.author}}</a>
+                   class="author may-blank id-t2_r5ti5">{{post.author}}</a>
             </p>
             <ul class="post-actions">
                 <li>
@@ -55,10 +55,6 @@
                     <a href="#">pocket</a>
                 </li>
             </ul>
-            <!--<div class="reportform report-t3_3vrg87"></div>-->
-            <!--<div class="expando" style="display: none">-->
-            <!--<span class="error">loading...</span>-->
-            <!--</div>-->
         </div>
     </div>
 </div>

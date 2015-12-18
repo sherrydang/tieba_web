@@ -19,8 +19,13 @@ function EditPostCtrl($scope, PostService) {
         $scope.postObj.content = $("#postContent").val();
         $("#postSubmitBtnId").addClass("disabled").text("processing...");
         PostService.addPost($scope.postObj).success(function (data) {
-            swal("Good job!", "Your post has been submitted!", "success");
-            console.log(data);
+            if(data.code==200){
+                swal("Good job!", data.message, "success");
+                console.log(data);
+            }
+            else{
+                swal("Sorry",data.message,"warning");
+            }
         }).error(function (r) {
             swal("Try again!","Server error", "warning");
             console.log(r);
@@ -30,15 +35,4 @@ function EditPostCtrl($scope, PostService) {
             }
         );
     };
-    
-    function getPostById(){
-        PostService.getPostById(17).success(function(data){
-            $("#post").html(data.object.content);
-            //console.log(data);
-        }).error(function(r){
-            console.log(r);
-        });
-    }
-
-    getPostById();
 }

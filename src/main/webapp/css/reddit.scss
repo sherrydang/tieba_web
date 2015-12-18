@@ -23,7 +23,13 @@
 .item-thumbnail{
   display: inline-block;
   float: left;
-  padding: 10px;
+  padding: 15px;
+}
+.bottom-line{
+  border-bottom: 1px solid #f2f2f2;
+}
+.bottom-line-dotted{
+  border-bottom: 1px dotted #f2f2f2;
 }
 
 /*#########################################
@@ -41,6 +47,7 @@
   @extend .box;
   float: left;
   width:83%;
+  padding: 15px;
 }
 .right-panel{
   float:right;
@@ -50,56 +57,53 @@
   @extend .box;
   padding: 16px 30px;
 }
-.link{
-  .vote-span{
-    height: 60px;
-    width: 36px!important;
-    margin: 15px 14px 0 11px;
+.vote-span{
+  height: 60px;
+  width: 36px!important;
+  margin: 25px 0 0 11px;
+  overflow: hidden;
+  font-weight: bold;
+  font-size: small;
+  display:block;
+  float: left;
+}
+.score {
+  text-align: center;
+  color: #c6c6c6;
+  line-height: 16px;
+  font-weight: bold;
+  margin: 1px 0;
+}
+.entry{
+  padding: 15px 32px 14px 0;
+  display: block;
+  overflow: hidden;
+  .title {
+    margin: -2px 0 0;
+    font-size: 18px;
+    font-family: arial,sans-serif;
     overflow: hidden;
-    font-weight: bold;
-    font-size: small;
-    display:block;
-    float: left;
+    //transition: all .15s ease;
+    line-height: 1.33;
   }
-  .score {
-    text-align: center;
-    color: #c6c6c6;
-    line-height: 16px;
-    font-weight: bold;
-    margin: 1px 0;
-  }
-  .entry{
-    padding: 15px 32px 14px 0;
-    border-bottom: 1px solid #f2f2f2;
-    display: block;
-    overflow: hidden;
-    .title {
-      margin: -2px 0 0;
-      font-size: 18px;
-      font-family: arial,sans-serif;
-      overflow: hidden;
-      //transition: all .15s ease;
-      line-height: 1.33;
-    }
-    .topic-domain {
-      visibility:hidden;
-      color: #888;
-      font-size: x-small;
-      white-space: nowrap;
-      a{
-        position: relative;
-        top: -1px;
-        color: #b3b3b3;
-        visibility:visible;
-      }
-    }
-    .author-line {
-      margin-top: 4px;
+  .topic-domain {
+    visibility:hidden;
+    color: #888;
+    font-size: x-small;
+    white-space: nowrap;
+    a{
+      position: relative;
+      top: -1px;
       color: #b3b3b3;
-      
-      font-family: arial,sans-serif;
-      //transition: all .15s ease;
+      visibility:visible;
     }
+  }
+  .author-line {
+    margin-top: 4px;
+    color: #b3b3b3;
+
+    font-family: arial,sans-serif;
+    //transition: all .15s ease;
   }
 }
 .post-actions {
@@ -263,3 +267,23 @@
   }
 }
 /*########LOGINFORM END########*/
+
+/*########COMMENT########*/
+.comment-box{
+  overflow:hidden;
+  padding-left:130px;
+  max-width: 70em;
+  &:last-child{
+    border-bottom: none;
+  }
+  .vote-span{
+    margin:10px 10px 10px 0;
+  }
+  .entry{
+    padding:0 0 0 15px;
+  }
+  .post-actions{
+    font-size: 12px;
+    padding:10px 0 15px 0;
+  }
+}

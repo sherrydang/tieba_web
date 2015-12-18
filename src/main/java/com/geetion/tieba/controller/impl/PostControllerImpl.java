@@ -30,7 +30,8 @@ public class PostControllerImpl extends BaseWebController implements PostControl
         if (methodType != null) {
             switch (methodType) {
                 case 1:
-                    List<Post> list = postService.getPostByClient(userId);
+//                    List<Post> list = postService.getPostByClient(userId);
+                    List<Post> list = postService.getAllPost();
                     resultMap.put("list", list);
                     break;
                 case 2:

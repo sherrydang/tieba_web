@@ -1,6 +1,6 @@
-define(['angularAMD', 'angularRoute', 'ngGrid', 'angularUI', 'filter/filter', 'directive/directive'], function (angularAMD) {
+define(['angularAMD', 'angularRoute', 'ngGrid', 'filter/filter', 'angularSanitize','directive/directive'], function (angularAMD) {
     'use strict';
-    var app = angular.module("ad", ['ngRoute', 'ui', 'ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.pagination', 'ui.grid.expandable', 'ui.grid.selection', 'ui.grid.pinning']);
+    var app = angular.module("ad", ['ngRoute','ngSanitize']);
 
     app.value("data_host", "http://localhost:8080/");
 
@@ -15,6 +15,10 @@ define(['angularAMD', 'angularRoute', 'ngGrid', 'angularUI', 'filter/filter', 'd
                 templateUrl: 'views/editPost.html'
                 , controller: 'EditPostCtrl',
                 controllerUrl: 'controller/editPostsCtrl'
+            }))
+            .when("/edit/:postId",angularAMD.route({
+                templateUrl: 'views/postDetails.html', controller: 'PostDetailsCtrl',
+                controllerUrl: 'controller/postDetailsCtrl'
             }))
             /*.when("/userDetail/:userId", angularAMD.route({
                 templateUrl: 'views/user_details.html', controller: 'UserDetailsCtrl',

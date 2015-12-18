@@ -8,7 +8,8 @@ require.config({
         angularRoute: '../lib/angular/angular-route',
         angularUI: '../lib/angular/angular.ui',
         angularAMD: '../lib/requirejs/angularAMD.min',
-        ngGrid: '../lib/nggrid/ui-grid-unstable.min'
+        ngGrid: '../lib/nggrid/ui-grid-unstable.min',
+        angularSanitize:'../lib/angular/angular-sanitize.min'
     },
 
     shim: {
@@ -22,6 +23,9 @@ require.config({
             deps: ['angular']
         },
         angularUI: {
+            deps: ['angular']
+        },
+        angularSanitize: {
             deps: ['angular']
         }
     },

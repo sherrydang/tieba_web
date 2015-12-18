@@ -1,0 +1,115 @@
+<div class="post-container">
+    <div class="row">
+        <div class="vote-span unvoted">
+            <div class="arrow up" data-event-action="upvote">
+            </div>
+            <!--<div class="score dislikes">40</div>-->
+            <div class="score unvoted ng-binding"></div>
+            <!--<div class="score likes">42</div>-->
+            <div class="arrow down" data-event-action="downvote">
+            </div>
+        </div>
+        <a class="item-thumbnail" href="">
+            <img src="/images/android_icon.png" style="border-radius: 150px;" width="54" height="54" alt="">
+        </a>
+        <div class="entry" style="padding:0 0 0 15px;max-width: 60em">
+            <h3>{{post.title}}</h3>
+            <p class="author-line">Submitted
+                <time title="Mon Dec 7 06:48:03 2015 UTC" datetime="2015-12-07T06:48:03+00:00" class="live-timestamp">
+                    an hour ago
+                </time>
+                by
+                <a href="https://www.reddit.com/user/shmerham"
+                   class="author may-blank id-t2_r5ti5">{{post.author}}</a>
+            </p>
+            <hr style="margin-top:0">
+            <div ng-bind-html="toTrusted(post.content)"></div>
+            <ul class="post-actions" style="font-size: 12px;padding:10px 0 15px 0;">
+                <li>
+                    <i class="fa fa-comments"></i>
+                    <a href="https://www.reddit.com/r/Android/comments/3vrg87/is_this_a_material_design_thing/"
+                    class="comments may-blank">6 comments</a>
+                </li>
+                <li>
+                    <a class="post-sharing-button" href="javascript: void 0;">share</a>
+                </li>
+                <li>
+                    <a href="#">save</a>
+                </li>
+                <li>
+                    <form>
+                        <input type="hidden" name="executed" value="hidden">
+                        <span><a href="javascript:void(0)" class=" " onclick="change_state(this, 'hide', hide_thing);">hide</a></span>
+                    </form>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="action-thing reportbtn access-required"
+                       data-event-action="report">report</a>
+                </li>
+                <li>
+                    <a href="#">pocket</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row comment-box">
+        <h3 style="margin-bottom: 20px">Comments:</h3>
+        <!--<hr>-->
+        <div class="comment bottom-line-dotted" ng-repeat="comment in commentList">
+            <div class="vote-span unvoted">
+                <div class="arrow up" data-event-action="upvote">
+                </div>
+                <!--<div class="score dislikes">40</div>-->
+                <div class="score unvoted ng-binding"></div>
+                <!--<div class="score likes">42</div>-->
+                <div class="arrow down" data-event-action="downvote">
+                </div>
+            </div>
+            <div class="entry">
+                <p class="author-line">Submitted
+                    <time title="Mon Dec 7 06:48:03 2015 UTC" datetime="2015-12-07T06:48:03+00:00" class="live-timestamp">
+                        an hour ago
+                    </time>
+                    by&nbsp;&nbsp;<img src="/images/android_icon.png" style="border-radius: 4px;" width="20" height="20" alt="">
+                    <a href="https://www.reddit.com/user/shmerham"
+                       class="author may-blank id-t2_r5ti5">{{comment.author}}</a>
+                </p>
+                <div ng-bind-html="toTrusted(comment.content)"></div>
+                <ul class="post-actions">
+                    <li>
+                        <i class="fa fa-comments"></i>
+                        <a href="https://www.reddit.com/r/Android/comments/3vrg87/is_this_a_material_design_thing/"
+                           class="comments may-blank">6 comments</a>
+                    </li>
+                    <li>
+                        <a class="post-sharing-button" href="javascript: void 0;">share</a>
+                    </li>
+                    <li>
+                        <a href="#">save</a>
+                    </li>
+                    <li>
+                        <form>
+                            <input type="hidden" name="executed" value="hidden">
+                            <span><a href="javascript:void(0)" class=" " onclick="change_state(this, 'hide', hide_thing);">hide</a></span>
+                        </form>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="action-thing reportbtn access-required"
+                           data-event-action="report">report</a>
+                    </li>
+                    <li>
+                        <a href="#">pocket</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div style="margin-top:20px;">
+            <form ng-submit="submitComment()">
+                <textarea class="form-control" style="height:300px;" id="reply"></textarea>
+                <button style="margin-top:15px" type="submit" class="btn btn-primary" id="replySubmitBtn">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

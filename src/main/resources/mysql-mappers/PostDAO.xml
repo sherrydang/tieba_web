@@ -121,6 +121,13 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
 
+    <select id="select" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="tableProperty" />
+        FROM post
+        ORDER BY post.create_time DESC
+    </select>
+
     <select id="selectByClient" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
         <include refid="tableProperty" />

@@ -7,7 +7,8 @@ define(['app'], function (app) {
 function PostService($http, data_host) {
     return{
         getAllPost: function(){
-            return $http.get('https://www.reddit.com/r/Android/new/.json');
+            //return $http.get('https://www.reddit.com/r/Android/new/.json');
+            return $http.get(data_host+'/ctrl/post/search?methodType=1');
         },
         addPost: function (postObj) {
             return $http.post(data_host+'/ctrl/post/add',

@@ -26,6 +26,12 @@ public interface PostService {
     public boolean updateById(Post object);
 
     /**
+     * 查询所有帖子
+     */
+    public List<Post> getAllPost();
+
+
+    /**
      * 根据主键查找帖子
      */
     public Post selectById(Long id);
