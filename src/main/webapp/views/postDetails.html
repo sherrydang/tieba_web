@@ -57,7 +57,7 @@
     <div class="row comment-box">
         <h3 style="margin-bottom: 20px">Comments:</h3>
         <!--<hr>-->
-        <div class="comment bottom-line-dotted" ng-repeat="comment in commentList">
+        <div class="comment bottom-line-dotted" ng-repeat="reply in post.replyList">
             <div class="vote-span unvoted">
                 <div class="arrow up" data-event-action="upvote">
                 </div>
@@ -74,9 +74,9 @@
                     </time>
                     by&nbsp;&nbsp;<img src="/images/android_icon.png" style="border-radius: 4px;" width="20" height="20" alt="">
                     <a href="https://www.reddit.com/user/shmerham"
-                       class="author may-blank id-t2_r5ti5">{{comment.author}}</a>
+                       class="author may-blank id-t2_r5ti5">{{reply.author}}</a>
                 </p>
-                <div ng-bind-html="toTrusted(comment.content)"></div>
+                <div ng-bind-html="toTrusted(reply.content)"></div>
                 <ul class="post-actions">
                     <li>
                         <i class="fa fa-comments"></i>

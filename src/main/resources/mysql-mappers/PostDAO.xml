@@ -12,17 +12,21 @@
         <result property="bestStatus" column="post_best_status"/>
         <result property="userId" column="post_user_id"/>
 
+        <collection property="replyList" javaType="java.util.List"
+                    ofType="com.geetion.tieba.pojo.Reply"
+                    resultMap="com.geetion.tieba.dao.ReplyDAO.BaseResultMap"/>
+
     </resultMap>
 
     <sql id="tableProperty">
-        id as post_id,
-        create_time as post_create_time,
-        title as post_title,
-        content as post_content,
-        update_time as post_update_time,
-        top_status as post_top_status,
-        best_status as post_best_status,
-        user_id as post_user_id
+        post.id as post_id,
+        post.create_time as post_create_time,
+        post.title as post_title,
+        post.content as post_content,
+        post.update_time as post_update_time,
+        post.top_status as post_top_status,
+        post.best_status as post_best_status,
+        post.user_id as post_user_id
     </sql>
 
 
@@ -139,10 +143,12 @@
 
     <select id="selectPk" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
-        <include refid="tableProperty" />
+        <include refid="tableProperty" />,
+        <include refid="com.geetion.tieba.dao.ReplyDAO.tableProperty"/>
         FROM post
+        LEFT OUTER JOIN reply ON post.id = reply.post_id
         <if test="_parameter!=null">
-            WHERE id = #{_parameter}
+            WHERE post.id = #{_parameter}
         </if>
     </select>
 

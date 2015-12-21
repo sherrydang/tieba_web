@@ -13,12 +13,12 @@
     </resultMap>
 
     <sql id="tableProperty">
-        id as reply_id,
-        create_time as reply_create_time,
-        content as reply_content,
-        update_time as reply_update_time,
-        post_id as reply_post_id,
-        user_id as reply_user_id
+        reply.id as reply_id,
+        reply.create_time as reply_create_time,
+        reply.content as reply_content,
+        reply.update_time as reply_update_time,
+        reply.post_id as reply_post_id,
+        reply.user_id as reply_user_id
     </sql>
 
     <insert id="insert" parameterType="com.geetion.tieba.pojo.Reply">

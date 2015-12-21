@@ -19,11 +19,9 @@ function PostDetailsCtrl($scope, PostService, ReplyService, $route,$sce) {
 
     $scope.postId = $route.current.params.postId;
 
-    $scope.post = {title:'',content:''};
+    $scope.post = {title:'',content:'',replyList:[]};
 
     $scope.reply = {content:'',postId:$scope.postId,userId:'2'};
-
-    $scope.commentList = {};
 
     function getPostById(){
         PostService.getPostById($scope.postId).success(function(data){
@@ -45,6 +43,7 @@ function PostDetailsCtrl($scope, PostService, ReplyService, $route,$sce) {
         ReplyService.addReply($scope.reply).success(function (data) {
             if(data.code==200){
                 swal("Good job!", data.message, "success");
+                getPostById();
                 console.log(data);
             }
             else{
@@ -60,14 +59,4 @@ function PostDetailsCtrl($scope, PostService, ReplyService, $route,$sce) {
         );
         console.log($scope.reply);
     };
-
-    var getAllreply = function () {
-        ReplyService.getAllReply($scope.postId).success(function(data){
-            $scope.commentList = data.list;
-        }).error(function(r){
-            console.log(r);
-        });
-    };
-
-    getAllreply();
 }

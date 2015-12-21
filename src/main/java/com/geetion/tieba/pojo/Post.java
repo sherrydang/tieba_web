@@ -1,6 +1,7 @@
 package com.geetion.tieba.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by sherry on 2015/11/11.
@@ -14,6 +15,15 @@ public class Post {
     private Short topStatus;
     private Short bestStatus;
     private Long userId;
+    private List<Reply> replyList;
+
+    public List<Reply> getReplyList() {
+        return replyList;
+    }
+
+    public void setReplyList(List<Reply> replyList) {
+        this.replyList = replyList;
+    }
 
     public Short getBestStatus() {
         return bestStatus;
