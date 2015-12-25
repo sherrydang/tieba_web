@@ -6,15 +6,13 @@ import java.util.Date;
  * Created by xiang on 2015/6/17.
  */
 
-public class Client implements java.io.Serializable {
+public class Admin implements java.io.Serializable {
 
     private Long id;
     private String nickName;
     private String account;
     private String password;
     private Date createTime;
-    private Long freeze;
-    private Date loginTime;
 
     public Date getLoginTime() {
         return loginTime;
@@ -24,13 +22,7 @@ public class Client implements java.io.Serializable {
         this.loginTime = loginTime;
     }
 
-    public Long getFreeze() {
-        return freeze;
-    }
-
-    public void setFreeze(Long freeze) {
-        this.freeze = freeze;
-    }
+    private Date loginTime;
 
     public String getAccount() {
         return account;

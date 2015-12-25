@@ -1,5 +1,9 @@
 package com.geetion.tieba.shiro.realm;
 
+import com.geetion.tieba.pojo.Admin;
+import com.geetion.tieba.pojo.Client;
+import com.geetion.tieba.service.AdminService;
+import com.geetion.tieba.service.ClientService;
 import com.geetion.tieba.utils.PasswordHelper;
 import com.geetion.tieba.utils.UUIDUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -18,6 +22,7 @@ import org.apache.shiro.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +34,13 @@ public class UserVerifyRealm extends AuthorizingRealm {
     private UUIDUtils uuidUtils;
     @Resource
     private PasswordHelper passwordHelper;
+
+    @Resource
+    private ClientService clientService;
+
+    @Resource
+    private AdminService adminService;
+
 
     /**
      * 赋予登录用户角色和权限
@@ -98,47 +110,64 @@ public class UserVerifyRealm extends AuthorizingRealm {
         //此处无需比对,比对的逻辑Shiro会做,我们只需返回一个和令牌相关的正确的验证信息
         //说白了就是第一个参数填登录用户名,第二个参数填合法的登录密码(可以是从数据库中取到的,本例中为了演示就硬编码了)
         //这样一来,在随后的登录页面上就只有这里指定的用户和密码才能通过验证
-//        PersonalBase user = personService.getPersonalBaseByEmployeeno(token.getUsername());
-//        //PersonalBase user = personalBaseService.getPersonalBaseByEmployeenoAndPassword(token.getUsername(), String.valueOf(token.getPassword()));
-//
-//        if (null == user) {
-//            throw new UnknownAccountException();//没找到帐号
-//        } else if (user.getStatus() != 1) {
-//            throw new LockedAccountException();//帐号锁定
-//        }
-//        if (user.getPassword().equals("123456") || user.getPassword().equals("admin")) {
-//            passwordHelper.encryptPassword(user);
-//        }
-//
-//
-//        if (token.getHost().equals("ctrl") || token.getHost().equals("driver") || token.getHost().equals("employ")) {
-//            user.setToken(uuidUtils.getUUID().replaceAll("-", ""));
-//            personService.updatePersonalBase(user);
-//        } else if (token.getHost().equals("vehicle")) {
-//            Vehicle vehicle = vehicleService.getByPersonId(user.getId());
-//            if (vehicle == null)
-//                throw new UnknownAccountException();//没找到帐号
-//            vehicle.setToken(uuidUtils.getUUID().replaceAll("-", ""));
-//            vehicleService.updateVehicle(vehicle);
-//        }
-//
-//        PersonalDetail personalDetail = personService.getPersonalDetailByPersonId(user.getId());
-//        personalDetail.setLogin_date(new Date());
-//        personService.updatePersonalDetail(personalDetail);
-        AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(
-               "admin",
-                "admin",
-                // salt=employee_no + token
-                ByteSource.Util.bytes("admin"),
-                "admin"
-        );
-//        setAuthenticationCachingEnabled(false);
-//        if (token.getHost().equals("ctrl")) {
-//            this.setSession(user.getEmployee_no(), user);
-//            this.setSession("mqttId", user.getEmployee_no());
-//            setAuthenticationCachingEnabled(true);
-//        }
+
+        String account = token.getUsername();
+        Admin admin = null;
+        Client client = null;
+        AuthenticationInfo authcInfo = null;
+        if ("admin".equals(token.getHost())) {
+            admin = adminService.getAdminByAccount(account);
+            if (null == admin) {
+                throw new UnknownAccountException();//没找到帐号
+            }
+//            if (admin.getPassword().equals("123456")) {
+//                admin.setPassword(passwordHelper.encryptPassword(admin));
+//            }
+            //设置登录时间
+            admin.setLoginTime(new Date());
+
+            authcInfo = new SimpleAuthenticationInfo(
+                    admin.getAccount(),
+                    admin.getPassword(),
+                    ByteSource.Util.bytes(admin.getAccount()),
+                    admin.getAccount()
+            );
+
+            this.setSession(admin.getAccount(), admin);
+            //设置缓存
+            setAuthenticationCachingEnabled(true);
+
+
+        } else if ("client".equals(token.getHost())) {
+            client = clientService.getClientByAccount(account);
+
+            if (null == client) {
+                throw new UnknownAccountException();//没找到帐号
+            } else if (client.getFreeze() == 1) {
+                throw new LockedAccountException();//帐号锁定
+            }
+
+//            if (client.getPassword().equals("123456")) {
+//                client.setPassword(passwordHelper.encryptPassword(client));
+//            }
+            //设置登录时间
+            client.setLoginTime(new Date());
+            clientService.updateClient(client);
+
+            authcInfo = new SimpleAuthenticationInfo(
+                    client.getAccount(),
+                    client.getPassword(),
+                    ByteSource.Util.bytes(client.getAccount()),
+                    client.getAccount()
+            );
+
+            this.setSession(client.getAccount(), client);
+            //设置缓存
+            setAuthenticationCachingEnabled(true);
+
+        }
         return authcInfo;
+
     }
 
     /**
