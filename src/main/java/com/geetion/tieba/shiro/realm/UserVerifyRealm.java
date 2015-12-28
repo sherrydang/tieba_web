@@ -143,16 +143,17 @@ public class UserVerifyRealm extends AuthorizingRealm {
 
             if (null == client) {
                 throw new UnknownAccountException();//没找到帐号
-            } else if (client.getFreeze() == 1) {
-                throw new LockedAccountException();//帐号锁定
             }
+//            else if (client.getFreeze() == 1) {
+//                throw new LockedAccountException();//帐号锁定
+//            }
 
 //            if (client.getPassword().equals("123456")) {
 //                client.setPassword(passwordHelper.encryptPassword(client));
 //            }
             //设置登录时间
-            client.setLoginTime(new Date());
-            clientService.updateClient(client);
+            /*client.setLoginTime(new Date());
+            clientService.updateClient(client);*/
 
             authcInfo = new SimpleAuthenticationInfo(
                     client.getAccount(),

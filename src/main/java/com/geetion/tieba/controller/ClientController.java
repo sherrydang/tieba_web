@@ -1,13 +1,16 @@
 package com.geetion.tieba.controller;
 
 import com.geetion.tieba.pojo.Client;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 /**
  * Created by xiang on 2015/6/17.
@@ -16,14 +19,20 @@ import javax.servlet.http.HttpServletResponse;
 public interface ClientController {
 
     /**
-     * 用户登录
+     * 用户登录页
      *
-     * @param client
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    @ResponseBody
-    public Object login(@ModelAttribute Client client);
+    ModelAndView login();
+
+    /**
+     * 用户登录操作
+     *
+     * @return
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    ModelAndView login(String username, String password);
 
     /**
      * 用户注册
@@ -34,6 +43,16 @@ public interface ClientController {
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     @ResponseBody
     public Object register(@ModelAttribute Client client);
+
+    /**
+     *用户退出
+     *
+     * @param locale
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    ModelAndView logout(Locale locale, Model model);
 
     /**
      * 更新用户个人资料

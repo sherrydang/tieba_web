@@ -8,13 +8,20 @@ import com.geetion.tieba.pojo.Image;
 import com.geetion.tieba.service.ClientService;
 import com.geetion.tieba.service.ImageService;
 import com.geetion.tieba.utils.ImageUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -28,6 +35,7 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
 
     @Resource
     private ImageService imageService;
+/*
 
     @Override
     public Object login(@ModelAttribute Client client) {
@@ -45,6 +53,39 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
         }
         return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
     }
+*/
+
+    @Override
+    public ModelAndView login() {
+        Subject currentUser = SecurityUtils.getSubject();
+        if (currentUser.isAuthenticated() || currentUser.isRemembered()) {
+            return sendResult("redirect:/index.html", null);
+        }
+        return sendResult(ResultCode.CODE_200.code, "login.jsp", ResultCode.CODE_200.msg, null);
+    }
+
+    @Override
+    public ModelAndView login(String username, String password) {
+        if (checkParaNULL(username, password)) {
+            Subject currentUser = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password, false, "client");
+            try {
+                currentUser.login(token);
+                return sendResult("redirect:/index.html", null);
+            } catch (UnknownAccountException uae) {
+                return sendResult(ResultCode.CODE_700.code, "login.jsp", ResultCode.CODE_700.msg, null);
+            } catch (IncorrectCredentialsException ice) {
+                return sendResult(ResultCode.CODE_701.code, "login.jsp", ResultCode.CODE_701.msg, null);
+            } catch (IllegalArgumentException iae) {
+                iae.printStackTrace();
+                return sendResult(ResultCode.CODE_703.code, "login.jsp", ResultCode.CODE_703.msg, null);
+            } catch (Exception e){
+                e.printStackTrace();
+                return sendResult(ResultCode.CODE_703.code, "login.jsp", ResultCode.CODE_703.msg, null);
+            }
+        }
+        return sendResult(ResultCode.CODE_401.code, "login.jsp", ResultCode.CODE_401.msg, null);
+    }
 
     @Override
     public Object register(@ModelAttribute Client client) {
@@ -59,6 +100,13 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
             return sendResult(ResultCode.CODE_702.code, ResultCode.CODE_702.msg, null);
         }
         return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
+    }
+
+    @Override
+    public ModelAndView logout(Locale locale, Model model) {
+        Subject currentUser = SecurityUtils.getSubject();
+        currentUser.logout();
+        return sendResult("redirect:/ctrl/client/login", null);
     }
 
     @Override

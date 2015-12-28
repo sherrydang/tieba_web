@@ -58,7 +58,7 @@ public class ShiroAuthService {
         initAnonFilter(sb);
 //        initLoginFilter(sb);
 //        initSysCustomer(sb);
-//        initAuthcFiter(sb);
+        initAuthcFiter(sb);
         return sb.toString();
     }
 
@@ -81,14 +81,7 @@ public class ShiroAuthService {
         stringBuffer.append("/css/** = anon").append(CRLF);
         stringBuffer.append("/images/** = anon").append(CRLF);
         stringBuffer.append("/upload/** = anon").append(CRLF);
-        stringBuffer.append("/ctrl/district/getDistrictById = anon").append(CRLF);
-        stringBuffer.append("/ctrl/admin/login = anon").append(CRLF);
-        stringBuffer.append("/ctrl/client/login = anon").append(CRLF);
-        stringBuffer.append("/ctrl/admin/register = anon").append(CRLF);
-        stringBuffer.append("/ctrl/client/register = anon").append(CRLF);
-        stringBuffer.append("/ctrl/common/** = anon").append(CRLF);
-        stringBuffer.append("/index.html = anon").append(CRLF);
-        stringBuffer.append("/admin.html = anon").append(CRLF);
+//        stringBuffer.append("/index.html = anon").append(CRLF);
     }
 
     /**
@@ -98,11 +91,11 @@ public class ShiroAuthService {
      */
     public void initLoginFilter(StringBuffer stringBuffer) {
         stringBuffer.append("/login = anon").append(CRLF);
-        stringBuffer.append("/ctrl/admin/login").append(CRLF);
-        stringBuffer.append("/ctrl/client/login").append(CRLF);
+        stringBuffer.append("/ctrl/admin/login = anon").append(CRLF);
+        stringBuffer.append("/ctrl/client/login = anon").append(CRLF);
     }
-    public void initSysCustomer(StringBuffer stringBuffer) {
-        stringBuffer.append("/app/** = sysUser").append(CRLF);
-    }
+//    public void initSysCustomer(StringBuffer stringBuffer) {
+//        stringBuffer.append("/app/** = sysUser").append(CRLF);
+//    }
 
 }

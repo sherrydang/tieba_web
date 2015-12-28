@@ -19,18 +19,18 @@
 
 
     <!-- 凭证匹配器 -->
-    <bean id="credentialsMatcher"
+    <!--<bean id="credentialsMatcher"
           class="com.geetion.tieba.shiro.credentials.RetryLimitHashedCredentialsMatcher">
         <constructor-arg ref="shiroCacheManager"/>
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="2"/>
         <property name="storedCredentialsHexEncoded" value="true"/>
-    </bean>
+    </bean>-->
 
 
     <!-- Realm实现 -->
     <bean id="userRealm" class="com.geetion.tieba.shiro.realm.UserVerifyRealm">
-        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <!--<property name="credentialsMatcher" ref="credentialsMatcher"/>-->
         <property name="cachingEnabled" value="true"/>
         <property name="authenticationCachingEnabled" value="true"/>
         <property name="authorizationCacheName" value="shiro.authorizationCache"/>
@@ -106,12 +106,13 @@
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="remember_me"/>
-        <property name="loginUrl" value="/login"/>
-        <property name="successUrl" value="/main"/>
+        <property name="loginUrl" value="/ctrl/client/login"/>
+        <property name="successUrl" value="/"/>
     </bean>
 
-    <bean id="sysUserFilter" class="com.geetion.tieba.shiro.filter.SysUserFilter">
-    </bean>
+    <bean id="forceLogout" class="com.geetion.tieba.shiro.filter.ForceLogoutFilter"/>
+    <!--<bean id="sysUserFilter" class="com.geetion.tieba.shiro.filter.ClientUserFilter">
+    </bean>-->
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -119,7 +120,8 @@
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
-                <entry key="sysUser" value-ref="sysUserFilter"/>
+                <entry key="forceLogout" value-ref="forceLogout"/>
+                <!--<entry key="sysUser" value-ref="sysUserFilter"/>-->
             </util:map>
         </property>
         <!-- 读取自定义权限内容-->
@@ -134,7 +136,7 @@
     <!--Shiro生命周期处理器-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <!-- Shiro异常管理 -->
-    <bean class="com.geetion.tieba.shiro.exception.DefaultExceptionHandler"/>
+    <!--<bean class="com.geetion.tieba.shiro.exception.DefaultExceptionHandler"/>-->
 
     <!-- AOP式方法级权限检查  -->
 
