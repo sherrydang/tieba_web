@@ -26,28 +26,32 @@ public class CommentControllerImpl extends BaseWebController implements CommentC
     CommentService commentService;
 
     @Override
-    public Object getCommentByParms(Integer methodType, @ModelAttribute PageEntity pageEntity, Long id, Long userId, @ModelAttribute Comment object) {
+    public Object getCommentByParms(Integer methodType, @ModelAttribute PageEntity pageEntity, Long id, Long userId, Long replyId, @ModelAttribute Comment object) {
         HashMap<String, Object> resultMap = new HashMap<>();
         if (methodType != null) {
             switch (methodType) {
                 case 1:
                     List<Comment> list = commentService.getCommentByClient(userId);
-                    resultMap.put("list", list);
+                    resultMap.put("commentList", list);
                     break;
                 case 2:
                     Comment comment = null;
                     if (id != null)
                         comment = commentService.selectById(id);
-                    resultMap.put("object", comment);
+                    resultMap.put("commentList", comment);
                     break;
                 case 3:
                     if (pageEntity != null)
                         pageEntity.setParams(pojoToMap(object));
                     PagingResult<Comment> pagingForKeyword = commentService.getCommentByParams(pageEntity);
-                    resultMap.put("list", pagingForKeyword.getResultList());
+                    resultMap.put("commentList", pagingForKeyword.getResultList());
                     resultMap.put("totalPage", pagingForKeyword.getTotalPage());
                     resultMap.put("totalSize", pagingForKeyword.getTotalSize());
                     resultMap.put("currentPage", pagingForKeyword.getCurrentPage());
+                    break;
+                case 4:
+                    List<Comment> commentList = commentService.getCommentByReplyId(replyId);
+                    resultMap.put("commentList", commentList);
                     break;
             }
             return sendResult(ResultCode.CODE_200.code, ResultCode.CODE_200.msg, resultMap);

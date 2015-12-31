@@ -35,6 +35,13 @@ public interface ClientController {
     ModelAndView login(String username, String password);
 
     /**
+     * 返回当前登录用户
+     */
+    @RequestMapping(value = "/role", method = RequestMethod.GET)
+    @ResponseBody
+    Object getRole();
+
+    /**
      * 用户注册
      *
      * @param client

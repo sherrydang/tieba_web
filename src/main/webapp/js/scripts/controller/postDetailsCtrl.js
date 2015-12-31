@@ -6,7 +6,7 @@ define([
 ], function (app) {
     app.controller('PostDetailsCtrl', PostDetailsCtrl);
 });
-function PostDetailsCtrl($scope, PostService, ReplyService, $route,$sce) {
+function PostDetailsCtrl($scope, PostService, ReplyService, $rootScope, $route,$sce) {
 
     $(document).ready(function () {
         $("textarea").sceditor({
@@ -15,18 +15,19 @@ function PostDetailsCtrl($scope, PostService, ReplyService, $route,$sce) {
             emoticonsRoot: 'images/',
             toolbarExclude:'indent,outdent'
         });
+
     });
 
     $scope.postId = $route.current.params.postId;
 
-    $scope.post = {title:'',content:'',replyList:[]};
+    $scope.loginUser = $rootScope.loginClient;
 
-    $scope.reply = {content:'',postId:$scope.postId,userId:'2'};
+    //用户回复主体
+    $scope.reply = {content:'',postId:$scope.postId,userId:$scope.loginUser.id};
 
     function getPostById(){
         PostService.getPostById($scope.postId).success(function(data){
             $scope.post = data.object;
-            console.log(data);
         }).error(function(r){
             console.log(r);
         });
@@ -37,14 +38,15 @@ function PostDetailsCtrl($scope, PostService, ReplyService, $route,$sce) {
         return $sce.trustAsHtml(html_code);
     };
 
-    $scope.submitComment = function () {
+    $scope.submitReply = function () {
+        console.log();
         $scope.reply.content = $('#reply').val();
         $("#replySubmitBtn").addClass("disabled").text("processing...");
         ReplyService.addReply($scope.reply).success(function (data) {
             if(data.code==200){
                 swal("Good job!", data.message, "success");
                 getPostById();
-                console.log(data);
+                //console.log(data);
             }
             else{
                 swal("Sorry",data.message,"warning");
@@ -57,6 +59,14 @@ function PostDetailsCtrl($scope, PostService, ReplyService, $route,$sce) {
                 $("#replySubmitBtn").removeClass("disabled").text("submit");
             }
         );
-        console.log($scope.reply);
     };
+
+    $scope.showComments = function (node,replyId) {
+        console.log(node);
+        console.log(replyId);
+    };
+
+    //$scope.getCmtByRplId = function (replyId) {
+    //   CommentService.get
+    //}
 }

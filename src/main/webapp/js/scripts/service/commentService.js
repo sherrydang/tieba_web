@@ -18,6 +18,9 @@ function CommentService($http, data_host) {
         },
         getCommentById: function (id) {
             return $http.get(data_host+'/ctrl/comment/search?methodType=2&id='+id);
+        },
+        getCmtByRplId: function (replyId) {
+            return $http.get(data_host+'/ctrl/comment/search?methodType=4&replyId='+replyId);
         }
     };
 }

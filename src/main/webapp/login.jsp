@@ -39,7 +39,7 @@
             <input name="password" class="form-control" type="password" placeholder="密码" required>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="remember-me"> 记住账号
+                    <input type="checkbox" name="rememberMe" value="true"> 记住账号
                 </label>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>

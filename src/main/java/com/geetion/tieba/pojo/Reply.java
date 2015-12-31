@@ -12,6 +12,15 @@ public class Reply {
     private Date updateTime;
     private Long postId;
     private Long userId;
+    private Client client;
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public Long getUserId() {
         return userId;

@@ -15,6 +15,16 @@ public class Post {
     private Short topStatus;
     private Short bestStatus;
     private Long userId;
+    private Client client;
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     private List<Reply> replyList;
 
     public List<Reply> getReplyList() {

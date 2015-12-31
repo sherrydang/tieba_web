@@ -18,7 +18,7 @@ public interface CommentController {
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
-    Object getCommentByParms(Integer methodType, @ModelAttribute PageEntity pageEntity, Long id, Long userId, @ModelAttribute Comment object);
+    Object getCommentByParms(Integer methodType, @ModelAttribute PageEntity pageEntity, Long id, Long userId, Long replyId, @ModelAttribute Comment object);
 
     /**
      * 发布新评论

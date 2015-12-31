@@ -36,6 +36,11 @@ public interface CommentService {
     public List<Comment> getCommentByClient(Long id);
 
     /**
+     * 根据帖子评论id查找回复
+     */
+    public List<Comment> getCommentByReplyId(Long id);
+
+    /**
      * 分页查询回复
      */
     public PagingResult<Comment> getCommentByParams(PageEntity pageEntity);

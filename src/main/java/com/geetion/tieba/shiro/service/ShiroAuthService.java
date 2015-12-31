@@ -58,7 +58,7 @@ public class ShiroAuthService {
         initAnonFilter(sb);
 //        initLoginFilter(sb);
 //        initSysCustomer(sb);
-        initAuthcFiter(sb);
+//        initAuthcFiter(sb);
         return sb.toString();
     }
 

@@ -9,12 +9,28 @@
         <result property="createTime" column="client_create_time"/>
     </resultMap>
 
+    <resultMap type="com.geetion.tieba.pojo.Client" id="BaseResultMap2">
+        <result property="id" column="client_id2"/>
+        <result property="nickName" column="client_nick_name2"/>
+        <result property="account" column="client_account2"/>
+        <result property="password" column="client_password2"/>
+        <result property="createTime" column="client_create_time2"/>
+    </resultMap>
+
     <sql id="tableProperty">
       client.id AS client_id,
       client.nick_name AS client_nick_name,
       client.account AS client_account,
       client.password AS client_password,
       client.create_time AS client_create_time
+    </sql>
+
+    <sql id="tableProperty2">
+        client2.id AS client_id2,
+        client2.nick_name AS client_nick_name2,
+        client2.account AS client_account2,
+        client2.password AS client_password2,
+        client2.create_time AS client_create_time2
     </sql>
 
     <insert id="insert" parameterType="com.geetion.tieba.pojo.Client">

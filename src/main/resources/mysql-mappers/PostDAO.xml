@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.geetion.tieba.dao.PostDAO">
-    <resultMap type="com.geetion.tieba.pojo.Post" id="BaseResultMap">
+    <resultMap type="com.geetion.tieba.pojo.Post" id="BaseResultMap2">
 
         <id property="id" column="post_id"/>
         <result property="createTime" column="post_create_time"/>
@@ -12,9 +12,26 @@
         <result property="bestStatus" column="post_best_status"/>
         <result property="userId" column="post_user_id"/>
 
+        <association property="client" javaType="com.geetion.tieba.pojo.Client"
+                     column="post_user_id"
+                     resultMap="com.geetion.tieba.dao.ClientDAO.BaseResultMap"/>
+
         <collection property="replyList" javaType="java.util.List"
                     ofType="com.geetion.tieba.pojo.Reply"
-                    resultMap="com.geetion.tieba.dao.ReplyDAO.BaseResultMap"/>
+                    resultMap="com.geetion.tieba.dao.ReplyDAO.BaseResultMap2"/>
+
+    </resultMap>
+
+    <resultMap type="com.geetion.tieba.pojo.Post" id="BaseResultMap">
+
+        <id property="id" column="post_id"/>
+        <result property="createTime" column="post_create_time"/>
+        <result property="title" column="post_title"/>
+        <result property="content" column="post_content"/>
+        <result property="updateTime" column="post_update_time"/>
+        <result property="topStatus" column="post_top_status"/>
+        <result property="bestStatus" column="post_best_status"/>
+        <result property="userId" column="post_user_id"/>
 
     </resultMap>
 
@@ -141,12 +158,16 @@
         </if>
     </select>
 
-    <select id="selectPk" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    <select id="selectPk" resultMap="BaseResultMap2" parameterType="java.lang.Long">
         SELECT
         <include refid="tableProperty" />,
-        <include refid="com.geetion.tieba.dao.ReplyDAO.tableProperty"/>
+        <include refid="com.geetion.tieba.dao.ReplyDAO.tableProperty"/>,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty2"/>
         FROM post
+        LEFT OUTER JOIN client AS client ON  post.user_id = client.id
         LEFT OUTER JOIN reply ON post.id = reply.post_id
+        LEFT OUTER JOIN client AS client2 ON  reply.user_id = client2.id
         <if test="_parameter!=null">
             WHERE post.id = #{_parameter}
         </if>

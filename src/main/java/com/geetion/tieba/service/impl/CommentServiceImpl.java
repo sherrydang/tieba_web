@@ -53,6 +53,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> getCommentByReplyId(Long replyId) {
+        return commentDAO.selectByReply(replyId);
+    }
+
+    @Override
     public PagingResult<Comment> getCommentByParams(PageEntity pageEntity) {
         PageHelper.startPage(pageEntity.getPage(), pageEntity.getSize());
         List<Comment> list = commentDAO.selectParam(pageEntity.getParams());

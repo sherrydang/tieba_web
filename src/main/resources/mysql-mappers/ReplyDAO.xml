@@ -12,6 +12,21 @@
 
     </resultMap>
 
+    <resultMap type="com.geetion.tieba.pojo.Reply" id="BaseResultMap2">
+
+        <id property="id" column="reply_id"/>
+        <result property="createTime" column="reply_create_time"/>
+        <result property="content" column="reply_content"/>
+        <result property="updateTime" column="reply_update_time"/>
+        <result property="postId" column="reply_post_id"/>
+        <result property="userId" column="reply_user_id"/>
+
+        <association property="client" javaType="com.geetion.tieba.pojo.Client"
+                     column="reply_user_id"
+                     resultMap="com.geetion.tieba.dao.ClientDAO.BaseResultMap2"/>
+
+    </resultMap>
+
     <sql id="tableProperty">
         reply.id as reply_id,
         reply.create_time as reply_create_time,
@@ -107,19 +122,23 @@
         ORDER BY reply.create_time DESC
     </select>
 
-    <select id="selectPk" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    <select id="selectPk" resultMap="BaseResultMap2" parameterType="java.lang.Long">
         SELECT
-        <include refid="tableProperty" />
+        <include refid="tableProperty" />,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>
         FROM reply
+        LEFT OUTER JOIN client ON  reply.user_id = client.id
         <if test="_parameter!=null">
             WHERE id = #{_parameter}
         </if>
     </select>
 
-    <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap2">
         SELECT
-        <include refid="tableProperty" />
+        <include refid="tableProperty" />,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>
         FROM reply
+        LEFT OUTER JOIN client ON  reply.user_id = client.id
         <trim prefix="where" prefixOverrides="and|or" >
             <if test="id != null">
                 id = #{id}

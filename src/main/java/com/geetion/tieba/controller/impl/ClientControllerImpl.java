@@ -59,7 +59,7 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
     public ModelAndView login() {
         Subject currentUser = SecurityUtils.getSubject();
         if (currentUser.isAuthenticated() || currentUser.isRemembered()) {
-            return sendResult("redirect:/index.html", null);
+            return sendResult("redirect:/", null);
         }
         return sendResult(ResultCode.CODE_200.code, "login.jsp", ResultCode.CODE_200.msg, null);
     }
@@ -69,9 +69,10 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
         if (checkParaNULL(username, password)) {
             Subject currentUser = SecurityUtils.getSubject();
             UsernamePasswordToken token = new UsernamePasswordToken(username, password, false, "client");
+//            token.setRememberMe(true);
             try {
                 currentUser.login(token);
-                return sendResult("redirect:/index.html", null);
+                return sendResult("redirect:/", null);
             } catch (UnknownAccountException uae) {
                 return sendResult(ResultCode.CODE_700.code, "login.jsp", ResultCode.CODE_700.msg, null);
             } catch (IncorrectCredentialsException ice) {
@@ -100,6 +101,14 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
             return sendResult(ResultCode.CODE_702.code, ResultCode.CODE_702.msg, null);
         }
         return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
+    }
+
+    @Override
+    public Object getRole() {
+        Client client = getLoginClient();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("client", client);
+        return sendResult(ResultCode.CODE_200.code, ResultCode.CODE_200.msg, resultMap, "password");
     }
 
     @Override

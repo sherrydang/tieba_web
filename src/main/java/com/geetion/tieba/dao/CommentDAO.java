@@ -15,4 +15,6 @@ public interface CommentDAO extends BaseDAO<Comment, Long> {
 
     public List<Comment> selectByClient(@Param("userId") Long userId);
 
+    public List<Comment> selectByReply(@Param("replyId") Long replyId);
+
 }

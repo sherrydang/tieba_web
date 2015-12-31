@@ -105,6 +105,16 @@
         ORDER BY comment.create_time DESC
     </select>
 
+    <select id="selectByReply" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="tableProperty" />
+        FROM comment
+        <if test="replyId!=null">
+            WHERE reply_id = #{replyId}
+        </if>
+        ORDER BY comment.create_time DESC
+    </select>
+
     <select id="selectPk" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
         <include refid="tableProperty" />
