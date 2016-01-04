@@ -15,6 +15,15 @@ public class Client implements java.io.Serializable {
     private Date createTime;
     private Long freeze;
     private Date loginTime;
+    private Long imageId;
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
+    }
 
     public Date getLoginTime() {
         return loginTime;

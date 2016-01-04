@@ -1,13 +1,21 @@
 package com.geetion.tieba.utils;
 
+import com.drew.imaging.jpeg.JpegMetadataReader;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifDirectory;
 import com.geetion.tieba.consts.ImageField;
 import com.geetion.tieba.handle.ThumbExec;
-import com.geetion.tieba.pojo.Image;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.Map;
@@ -15,74 +23,53 @@ import java.util.Map;
 /**
  * Created by xiang on 2015/6/19.
  */
+@Component
 public class ImageUtils {
 
     /**
      * 保存图片到服务器本地
      *
-     * @param type
-     * @param req
-     * @return fileName
+     * @param file     http 上传文件
+     * @param req      request
+     * @param savePath 保存文件的路径
+     * @return
      */
-    public static String saveImage(int type, HttpServletRequest req) {
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
-        MultipartFile file = multipartRequest.getFile("pic");
-        File newFile = null;
-        switch (type) {
-            case 0://广告图片
-                newFile = new File(PathUtils.getAdvertisementPicPath(req));
-                break;
-            case 1://头像图片
-                newFile = new File(PathUtils.getHeadIconPath(req));
-                break;
-            case 2://截图图片
-                newFile = new File(PathUtils.getScreenshotPath(req));
-                break;
-            default:
-                return null;
+    public static String saveImage(MultipartFile file, HttpServletRequest req, String savePath) {
+        File uploadFile = new File(PathUtils.getUploadPath(req));
+        if (!uploadFile.exists()) {//检查upload文件夹是否存在
+            uploadFile.mkdir();
         }
+        File newFile = new File(savePath);
         if (!newFile.exists()) {
             newFile.mkdir();
         }
-        String fileName = new UUIDUtils().getUUID() + ".jpg";
+        String fileName = System.nanoTime() + ".jpg";
+        File imageFile = new File(newFile + File.separator + fileName);
+        //imageFile.deleteOnExit();//当文件存在时，删除原图
         try {
-            file.transferTo(new File(newFile + File.separator + fileName));
+            file.transferTo(imageFile);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        return fileName;
+        return imageFile.getAbsolutePath().replace(PathUtils.getWebRootPath(req), "");
     }
 
     /**
      * handler
      *
-     * @param image
+     * @param filePath
      * @param request
      * @param response
      * @return
      */
-    public static HttpServletResponse getImage(Image image, HttpServletRequest request, HttpServletResponse response) {
+    public static HttpServletResponse getImage(String filePath, HttpServletRequest request, HttpServletResponse response) {
         // 请求参数
-        String[] querys = request.getParameter("thumb").split("/");
+        String[] querys = request.getParameter("thumb").split("-");
 
         Map<String, String> params = QueryUtil.query2Map(querys);
+        filePath = PathUtils.getWebRootPath(request) + filePath;
 
-        // 请求文件物理路径
-        String filePath = null;
-        switch (image.getType()) {
-            case 0:
-                filePath = PathUtils.getAdvertisementPicPath(request) + File.separator + image.getUrl();
-                break;
-            case 1:
-                filePath = PathUtils.getHeadIconPath(request) + File.separator + image.getUrl();
-                break;
-            case 2:
-                filePath = PathUtils.getScreenshotPath(request) + File.separator + image.getUrl();
-                break;
-            default:
-                return null;
-        }
         if (params.isEmpty() || !FileUtil.exists(filePath)) {
             return response;
         }
@@ -210,4 +197,130 @@ public class ImageUtils {
         }
         return response;
     }
+
+
+    /**
+     * 旋转图片并保存
+     *
+     * *@param degree 旋转角度
+     * @throws Exception
+     * @return PATH  文件路径
+     */
+    public static String rotateImage(MultipartFile file, HttpServletRequest req, String savePath ) throws Exception {
+
+        File uploadFile = new File(PathUtils.getUploadPath(req));
+        if (!uploadFile.exists()) {//检查upload文件夹是否存在
+            uploadFile.mkdir();
+        }
+        File newFile = new File(savePath);
+        if (!newFile.exists()) {
+            newFile.mkdir();
+        }
+        String fileName = System.nanoTime() + ".jpg";
+        File imageFile = new File(newFile + File.separator + fileName);
+        //imageFile.deleteOnExit();//当文件存在时，删除原图
+
+        file.transferTo(imageFile);
+
+        Integer degree = 0;
+
+        //读取图片的EXIF信息
+        Metadata metadata = JpegMetadataReader.readMetadata(imageFile);
+
+        System.out.println("metadata.getDirectoryCount()     "+metadata.getDirectoryCount());
+
+        Directory exif = metadata.getDirectory(ExifDirectory.class);
+        int orientation = exif.getInt(ExifDirectory.TAG_ORIENTATION);
+        switch (orientation) {
+            case 1:
+                System.out.println("Top, left side (Horizontal / normal)");
+                degree = 270;
+                break;
+            case 2: System.out.println( "Top, right side (Mirror horizontal)");
+                degree = 90;
+                break;
+            case 3: System.out.println( "Bottom, right side (Rotate 180)");
+                degree = 180;
+                break;
+            case 4: System.out.println( "Bottom, left side (Mirror vertical)");
+                degree = 180;
+                break;
+            case 5: System.out.println( "Left side, top (Mirror horizontal and rotate 270 CW)");
+                degree = 270;
+                break;
+            case 6: System.out.println( "Right side, top (Rotate 90 CW)");
+                degree = 90;
+                break;
+            case 7: System.out.println( "Right side, bottom (Mirror horizontal and rotate 90 CW)");
+                degree = 90;
+                break;
+            case 8: System.out.println( "Left side, bottom (Rotate 270 CW)");
+                degree = 270;
+                break;
+        }
+
+        System.out.println("\n\nimageFile.getPath()  "+imageFile.getPath());
+
+        int swidth = 0; // 旋转后的宽度
+        int sheight = 0; // 旋转后的高度
+        int x; // 原点横坐标
+        int y; // 原点纵坐标
+
+        if (!imageFile.isFile()) {
+            throw new Exception("ImageDeal>>>" + imageFile + " 不是一个图片文件!");
+        }
+        BufferedImage bi = ImageIO.read(imageFile); // 读取该图片
+
+
+        // 处理角度--确定旋转弧度
+        degree = degree % 360;
+        if (degree < 0)
+            degree = 360 + degree;// 将角度转换到0-360度之间
+        double theta = Math.toRadians(degree);// 将角度转为弧度
+
+        // 确定旋转后的宽和高
+        if (degree == 180 || degree == 0 || degree == 360) {
+            swidth = bi.getWidth();
+            sheight = bi.getHeight();
+        } else if (degree == 90 || degree == 270) {
+            sheight = bi.getWidth();
+            swidth = bi.getHeight();
+        } else {
+            swidth = (int) (Math.sqrt(bi.getWidth() * bi.getWidth()
+                    + bi.getHeight() * bi.getHeight()));
+            sheight = (int) (Math.sqrt(bi.getWidth() * bi.getWidth()
+                    + bi.getHeight() * bi.getHeight()));
+        }
+
+        System.out.println("\n\nswidth  "+swidth+"      sheight     "+sheight);
+
+
+        x = (swidth / 2) - (bi.getWidth() / 2);// 确定原点坐标
+        y = (sheight / 2) - (bi.getHeight() / 2);
+
+        System.out.println("\n\n原点  x   "+x+"    y  "+y);
+
+        BufferedImage spinImage = new BufferedImage(swidth, sheight,
+                bi.getType());
+        // 设置图片背景颜色
+        Graphics2D gs = (Graphics2D) spinImage.getGraphics();
+
+        gs.setColor(Color.white);
+        gs.fillRect(0, 0, swidth, sheight);// 以给定颜色绘制旋转后图片的背景
+
+        AffineTransform at = new AffineTransform();
+        at.rotate(theta, swidth / 2, sheight / 2);// 旋转图象
+        at.translate(x, y);
+        AffineTransformOp op = new AffineTransformOp(at,
+                AffineTransformOp.TYPE_BICUBIC);
+        spinImage = op.filter(bi, spinImage);
+
+        ImageIO.write(spinImage, "jpg", imageFile); // 保存图片
+
+        return imageFile.getAbsolutePath().replace(PathUtils.getWebRootPath(req), "");
+
+    }
+
+
+
 }

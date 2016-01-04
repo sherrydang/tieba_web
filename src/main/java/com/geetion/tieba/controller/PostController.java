@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Created by sherry on 2015/11/13.
  */
-@RequestMapping("/ctrl/post")
+@RequestMapping("/post")
 public interface PostController {
 
     /**

@@ -11,5 +11,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ImageDAO extends BaseDAO<Image, Long> {
 
-    public Image selectByUrl(@Param("url") String url);
 }

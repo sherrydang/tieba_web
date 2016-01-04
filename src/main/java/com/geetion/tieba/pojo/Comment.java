@@ -10,9 +10,17 @@ public class Comment {
     private String content;
     private Long fromId;
     private Long replyId;
-    private Long toId;
     private Date createTime;
     private Date updateTime;
+    private Long fromImageId;
+
+    public Long getFromImageId() {
+        return fromImageId;
+    }
+
+    public void setFromImageId(Long fromImageId) {
+        this.fromImageId = fromImageId;
+    }
 
     public String getContent() {
         return content;
@@ -52,14 +60,6 @@ public class Comment {
 
     public void setReplyId(Long replyId) {
         this.replyId = replyId;
-    }
-
-    public Long getToId() {
-        return toId;
-    }
-
-    public void setToId(Long toId) {
-        this.toId = toId;
     }
 
     public Date getUpdateTime() {

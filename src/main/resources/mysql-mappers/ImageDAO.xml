@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geetion.tieba.dao.ImageDAO">
+    <resultMap type="com.geetion.tieba.pojo.Image" id="BaseResultMap">
+        <id property="id" column="image_id"/>
+        <result property="path" column="image_path"/>
+        <result property="createTime" column="image_create_time"/>
+    </resultMap>
+
+    <sql id="tableProperty">
+        image.id as image_id,
+        image.path as image_path,
+        image.create_time as image_create_time
+    </sql>
+
+    <insert id="insert" parameterType="com.geetion.tieba.pojo.Image" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO image
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="path != null">
+                path,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.geetion.tieba.pojo.Image">
+        UPDATE image
+        <trim suffixOverrides=",">
+            <set>
+                <if test="path != null">
+                    path = #{path,jdbcType=VARCHAR}
+                </if>
+            </set>
+        </trim>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM image WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+
+    <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="tableProperty" />
+        FROM image
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="path != null">
+                path = #{path}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </trim>
+        ORDER BY image.create_time DESC
+    </select>
+
+    <select id="select" resultMap="BaseResultMap">
+        SELECT
+        <include refid="tableProperty" />
+        FROM image
+        ORDER BY image.create_time DESC
+    </select>
+
+    <select id="selectPk" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="tableProperty"/>
+        FROM image
+        WHERE image.id = #{id}
+    </select>
+
+
+</mapper>

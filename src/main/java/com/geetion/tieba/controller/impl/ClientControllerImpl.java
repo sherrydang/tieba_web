@@ -8,12 +8,14 @@ import com.geetion.tieba.pojo.Image;
 import com.geetion.tieba.service.ClientService;
 import com.geetion.tieba.service.ImageService;
 import com.geetion.tieba.utils.ImageUtils;
+import com.geetion.tieba.utils.PathUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -90,7 +92,7 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
 
     @Override
     public Object register(@ModelAttribute Client client) {
-        if(checkParaNULL(client.getAccount(), client.getPassword())){
+        if(checkParaNULL(client.getAccount(), client.getPassword(), client.getImageId())){
             boolean registerResult = clientService.register(client);
             if(registerResult){
                 client = clientService.getClientByAccount(client.getAccount());
@@ -115,7 +117,7 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
     public ModelAndView logout(Locale locale, Model model) {
         Subject currentUser = SecurityUtils.getSubject();
         currentUser.logout();
-        return sendResult("redirect:/ctrl/client/login", null);
+        return sendResult("redirect:/login", null);
     }
 
     @Override
@@ -131,33 +133,6 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
             return sendResult(ResultCode.CODE_500.code, ResultCode.CODE_500.msg, null);
         }
         return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
-    }
-
-    @Override
-    public Object uploadImage(int type, HttpServletRequest req, HttpServletResponse resp) {
-        String fileName = ImageUtils.saveImage(type, req);
-        if(fileName != null && !"".equals(fileName)){
-            Image image = new Image();
-            image.setUrl(fileName);
-            image.setType(type);
-            boolean insertResult = imageService.addImage(image);
-            if(insertResult){
-                image = imageService.getByUrl(image.getUrl());
-                Map<String, Object> result = new HashMap<String, Object>();
-                result.put("image", image);
-                return sendResult(ResultCode.CODE_200.code, ResultCode.CODE_200.msg, result);
-            }
-            return sendResult(ResultCode.CODE_500.code, ResultCode.CODE_500.msg, null);
-        }
-        return sendResult(ResultCode.CODE_500.code, ResultCode.CODE_500.msg, null);
-    }
-
-    @Override
-    public void getImage(long id, HttpServletRequest req, HttpServletResponse resp) {
-        Image image = imageService.getByPk(id);
-        if(image != null){
-            resp = ImageUtils.getImage(image, req, resp);
-        }
     }
 
 }

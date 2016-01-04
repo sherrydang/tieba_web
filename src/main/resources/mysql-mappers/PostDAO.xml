@@ -11,6 +11,7 @@
         <result property="topStatus" column="post_top_status"/>
         <result property="bestStatus" column="post_best_status"/>
         <result property="userId" column="post_user_id"/>
+        <result property="replyAmount" column="reply_count"/>
 
         <association property="client" javaType="com.geetion.tieba.pojo.Client"
                      column="post_user_id"
@@ -32,6 +33,7 @@
         <result property="topStatus" column="post_top_status"/>
         <result property="bestStatus" column="post_best_status"/>
         <result property="userId" column="post_user_id"/>
+        <result property="replyAmount" column="reply_count"/>
 
     </resultMap>
 
@@ -144,7 +146,12 @@
 
     <select id="select" resultMap="BaseResultMap" >
         SELECT
-        <include refid="tableProperty" />
+        <include refid="tableProperty" />,
+        (
+        SELECT Count(*)
+        FROM reply
+        Where reply.post_id = post.id
+        ) as reply_count
         FROM post
         ORDER BY post.create_time DESC
     </select>
@@ -163,7 +170,12 @@
         <include refid="tableProperty" />,
         <include refid="com.geetion.tieba.dao.ReplyDAO.tableProperty"/>,
         <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>,
-        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty2"/>
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty2"/>,
+        (
+        SELECT Count(*)
+        FROM reply
+        Where reply.post_id = post.id
+        ) as reply_count
         FROM post
         LEFT OUTER JOIN client AS client ON  post.user_id = client.id
         LEFT OUTER JOIN reply ON post.id = reply.post_id

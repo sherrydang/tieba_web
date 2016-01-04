@@ -6,8 +6,11 @@ define([
 ], function (app) {
     app.controller('EditPostCtrl', EditPostCtrl);
 });
-function EditPostCtrl($scope, PostService) {
-    $scope.postObj = {userId:1, title:'', content:''};
+function EditPostCtrl($scope, PostService, $rootScope) {
+    $scope.postObj = {title:'', content:'', userId:''};
+    if($rootScope.loginClient){
+        $scope.postObj.userId = $rootScope.loginClient.id;
+    }
     $(document).ready(function () {
         $("textarea").sceditor({
             plugins: "xhtml",

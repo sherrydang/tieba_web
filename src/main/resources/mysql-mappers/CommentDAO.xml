@@ -9,18 +9,18 @@
         <result property="updateTime" column="comment_update_time"/>
         <result property="replyId" column="comment_reply_id"/>
         <result property="fromId" column="comment_from_id"/>
-        <result property="toId" column="comment_to_id"/>
+        <result property="fromImageId" column="image_id"/>
 
     </resultMap>
 
     <sql id="tableProperty">
-        id as comment_id,
-        create_time as comment_create_time,
-        content as comment_content,
-        update_time as comment_update_time,
-        reply_id as comment_reply_id,
-        from_id as comment_from_id,
-        to_id as comment_to_id
+        comment.id as comment_id,
+        comment.create_time as comment_create_time,
+        comment.content as comment_content,
+        comment.update_time as comment_update_time,
+        comment.reply_id as comment_reply_id,
+        comment.from_id as comment_from_id,
+        client.image_id as image_id
     </sql>
 
 
@@ -37,9 +37,6 @@
             <if test="fromId != null ">
                 from_id,
             </if>
-            <if test="toId != null ">
-                to_id,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="content != null ">
@@ -50,9 +47,6 @@
             </if>
             <if test="fromId != null ">
                 #{fromId},
-            </if>
-            <if test="toId != null ">
-                #{toId},
             </if>
         </trim>
 
@@ -87,9 +81,6 @@
                 <if test="fromId != null ">
                     from_id = #{fromId},
                 </if>
-                <if test="toId != null ">
-                    to_id = #{toId},
-                </if>
             </set>
         </trim>
         WHERE id = #{id,jdbcType=BIGINT}
@@ -109,6 +100,7 @@
         SELECT
         <include refid="tableProperty" />
         FROM comment
+        LEFT OUTER JOIN client ON  comment.from_id = client.id
         <if test="replyId!=null">
             WHERE reply_id = #{replyId}
         </if>
@@ -140,9 +132,6 @@
             </if>
             <if test="fromId != null">
                 and from_id = #{fromId}
-            </if>
-            <if test="toId != null">
-                and to_id = #{toId}
             </if>
         </trim>
         ORDER BY comment.create_time DESC

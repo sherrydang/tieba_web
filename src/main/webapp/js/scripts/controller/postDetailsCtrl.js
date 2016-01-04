@@ -2,14 +2,14 @@
  * Created by sherry on 2015/12/17.
  */
 define([
-    'app', 'service/postService','service/replyService'
+    'app', 'service/postService','service/replyService','service/commentService'
 ], function (app) {
     app.controller('PostDetailsCtrl', PostDetailsCtrl);
 });
-function PostDetailsCtrl($scope, PostService, ReplyService, $rootScope, $route,$sce) {
+function PostDetailsCtrl($scope, PostService, ReplyService, CommentService, $rootScope, $route,$sce) {
 
     $(document).ready(function () {
-        $("textarea").sceditor({
+        $("#reply").sceditor({
             plugins: "xhtml",
             style: 'js/lib/minified/jquery.sceditor.default.min.css',
             emoticonsRoot: 'images/',
@@ -20,10 +20,13 @@ function PostDetailsCtrl($scope, PostService, ReplyService, $rootScope, $route,$
 
     $scope.postId = $route.current.params.postId;
 
-    $scope.loginUser = $rootScope.loginClient;
-
     //用户回复主体
-    $scope.reply = {content:'',postId:$scope.postId,userId:$scope.loginUser.id};
+    $scope.reply = {content:'',postId:$scope.postId,userId:''};
+
+    if($rootScope.loginClient){
+        $scope.loginUserId = $rootScope.loginClient.id;
+        $scope.reply.userId = $scope.userId;
+    }
 
     function getPostById(){
         PostService.getPostById($scope.postId).success(function(data){
@@ -61,12 +64,57 @@ function PostDetailsCtrl($scope, PostService, ReplyService, $rootScope, $route,$
         );
     };
 
-    $scope.showComments = function (node,replyId) {
-        console.log(node);
-        console.log(replyId);
+    $scope.showComments = function (reply) {
+        var id = reply.id;
+        if(reply.isOpen == true){
+            reply.isOpen = false;
+            $('#comment'+id).hide();
+        }else{
+            appendComments(reply);
+        }
     };
 
-    //$scope.getCmtByRplId = function (replyId) {
-    //   CommentService.get
-    //}
+    $scope.submitComment = function(reply) {
+        var commentObj = {fromId:$scope.loginUserId, replyId: reply.id, content: ''};
+        commentObj.content = $('#textarea'+reply.id).val();
+        CommentService.addComment(commentObj).success(function(data){
+            if(data.code==200){
+                swal("Good job!", data.message, "success");
+                appendComments(reply);
+                $('#textarea'+reply.id).val('');
+            }
+            else{
+                swal("Sorry",data.message,"warning");
+            }
+        }).error(function (r) {
+            swal("Try again!","Server error", "warning");
+            console.log(r);
+        })
+    };
+
+    var appendComments = function (reply) {
+        CommentService.getCmtByRplId(reply.id).success(function(data){
+            reply.isOpen = true;
+            var list = data.commentList;
+            $('#comment'+reply.id+' .comment-list').html('');
+            var commentsStr = '';
+            if(list.length > 0){
+                angular.forEach(list, function (item) {
+                    commentsStr = commentsStr +
+                    '<div style="padding: 10px 0;"><a class="item-thumbnail" href=""><img src="/showImage?id='+ item.fromImageId +'" style="border-radius: 150px;" width="25" height="25" alt=""> </a>'
+                    +'<div class="entry"> <p class="author-line">Submitted an hour ago'
+                        //+'<img src="/images/android_icon.png" style="border-radius: 4px;" width="20" height="20" alt="">'
+                    +'by <span>sherry</span></p>'
+                    +'<div>'+item.content+'</div></div></div>';
+                });
+                commentsStr += '</div>';
+            }
+            $('#comment'+reply.id+' .comment-list').append(commentsStr);
+            $('#comment'+reply.id).show();
+        }).error(function(r){
+            console.log(r);
+        });
+
+    };
+
 }

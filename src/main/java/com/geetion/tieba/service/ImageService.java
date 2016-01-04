@@ -16,13 +16,6 @@ public interface ImageService {
      */
     public boolean addImage(Image image);
 
-    /**
-     * 根据URL获取图片信息
-     *
-     * @param url
-     * @return
-     */
-    public Image getByUrl(String url);
 
     /**
      * 根据ID获取图片信息
@@ -30,5 +23,5 @@ public interface ImageService {
      * @param id
      * @return
      */
-    public Image getByPk(long id);
+    public Image getImageByPk(Long id);
 }

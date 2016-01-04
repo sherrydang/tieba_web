@@ -6,10 +6,10 @@ require.config({
     paths: {
         angular: '../lib/angular/angular.min',
         angularRoute: '../lib/angular/angular-route',
-        angularUI: '../lib/angular/angular.ui',
         angularAMD: '../lib/requirejs/angularAMD.min',
-        ngGrid: '../lib/nggrid/ui-grid-unstable.min',
-        angularSanitize:'../lib/angular/angular-sanitize.min'
+        angularSanitize:'../lib/angular/angular-sanitize.min',
+        ngUploadFile: '../lib/upload-progress/ng-file-upload',
+        ngUploadFile_shim: '../lib/upload-progress/ng-file-upload-shim'
     },
 
     shim: {
@@ -19,14 +19,11 @@ require.config({
         angularAMD: {
             deps: ['angular']
         },
-        ngGrid: {
-            deps: ['angular']
-        },
-        angularUI: {
-            deps: ['angular']
-        },
         angularSanitize: {
             deps: ['angular']
+        },
+        ngUploadFile: {
+            deps: ['angular', 'ngUploadFile_shim']
         }
     },
     deps: ['app']

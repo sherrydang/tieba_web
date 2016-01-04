@@ -8,16 +8,16 @@ function PostService($http, data_host) {
     return{
         getAllPost: function(){
             //return $http.get('https://www.reddit.com/r/Android/new/.json');
-            return $http.get(data_host+'/ctrl/post/search?methodType=1');
+            return $http.get(data_host+'/post/search?methodType=1');
         },
         addPost: function (postObj) {
-            return $http.post(data_host+'/ctrl/post/add',
+            return $http.post(data_host+'/post/add',
                 $.param(postObj),
                 {'headers':{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}}
             );
         },
         getPostById: function (id) {
-            return $http.get(data_host+'/ctrl/post/search?methodType=2&id='+id);
+            return $http.get(data_host+'/post/search?methodType=2&id='+id);
         }
     };
 }

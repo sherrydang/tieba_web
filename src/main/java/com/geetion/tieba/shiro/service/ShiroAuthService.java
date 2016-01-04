@@ -91,8 +91,8 @@ public class ShiroAuthService {
      */
     public void initLoginFilter(StringBuffer stringBuffer) {
         stringBuffer.append("/login = anon").append(CRLF);
-        stringBuffer.append("/ctrl/admin/login = anon").append(CRLF);
-        stringBuffer.append("/ctrl/client/login = anon").append(CRLF);
+        stringBuffer.append("/login = anon").append(CRLF);
+        stringBuffer.append("/login = anon").append(CRLF);
     }
 //    public void initSysCustomer(StringBuffer stringBuffer) {
 //        stringBuffer.append("/app/** = sysUser").append(CRLF);

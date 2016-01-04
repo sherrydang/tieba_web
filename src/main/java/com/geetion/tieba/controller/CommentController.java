@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Created by sherry on 2015/11/17.
  */
-@RequestMapping("/ctrl/comment")
+@RequestMapping("/comment")
 public interface CommentController {
 
     /**

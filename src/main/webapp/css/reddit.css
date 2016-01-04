@@ -321,15 +321,28 @@
 .reply-box {
   overflow: hidden;
   padding-left: 130px;
-  max-width: 70em; }
+  max-width: 70em;
+  /*  .vote-span{
+      margin:10px 10px 10px 0;
+    }*/ }
   .reply-box:last-child {
     border-bottom: none; }
-  .reply-box .vote-span {
-    margin: 10px 10px 10px 0; }
   .reply-box .entry {
     padding: 0 0 0 15px; }
   .reply-box .post-actions {
     font-size: 12px;
     padding: 10px 0 15px 0; }
+
+.comment-box {
+  font-size: 13px;
+  padding: 8px;
+  background: #f6f6f6;
+  border: 1px solid #e2e2e2;
+  overflow: hidden;
+  border-radius: 2px; }
+  .comment-box .item-thumbnail {
+    padding: 10px 0 0 0; }
+  .comment-box .author-line {
+    margin-bottom: 0; }
 
 /*# sourceMappingURL=reddit.css.map */

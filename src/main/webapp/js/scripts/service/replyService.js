@@ -8,16 +8,16 @@ function ReplyService($http, data_host) {
     return{
         getAllReply: function(postId){
             //return $http.get('https://www.reddit.com/r/Android/new/.json');
-            return $http.get(data_host+'/ctrl/reply/search?methodType=3&page=1&size=100000&postId='+postId);
+            return $http.get(data_host+'/reply/search?methodType=3&page=1&size=100000&postId='+postId);
         },
         addReply: function (replyObj) {
-            return $http.post(data_host+'/ctrl/reply/add',
+            return $http.post(data_host+'/reply/add',
                 $.param(replyObj),
                 {'headers':{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}}
             );
         },
         getReplyById: function (id) {
-            return $http.get(data_host+'/ctrl/reply/search?methodType=2&id='+id);
+            return $http.get(data_host+'/reply/search?methodType=2&id='+id);
         }
     };
 }

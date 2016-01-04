@@ -12,7 +12,16 @@ public class Reply {
     private Date updateTime;
     private Long postId;
     private Long userId;
+    private Short commentAmount;
     private Client client;
+
+    public Short getCommentAmount() {
+        return commentAmount;
+    }
+
+    public void setCommentAmount(Short commentAmount) {
+        this.commentAmount = commentAmount;
+    }
 
     public Client getClient() {
         return client;

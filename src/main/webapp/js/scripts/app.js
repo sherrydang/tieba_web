@@ -1,6 +1,6 @@
-define(['angularAMD', 'angularRoute', 'ngGrid', 'filter/filter', 'angularSanitize','directive/directive'], function (angularAMD) {
+define(['angularAMD', 'angularRoute', 'filter/filter', 'angularSanitize','directive/directive','ngUploadFile'], function (angularAMD) {
     'use strict';
-    var app = angular.module("ad", ['ngRoute','ngSanitize']);
+    var app = angular.module("tieba", ['ngRoute','ngSanitize','ngFileUpload']);
 
     app.value("data_host", "http://localhost:8080/");
 
@@ -37,7 +37,7 @@ define(['angularAMD', 'angularRoute', 'ngGrid', 'filter/filter', 'angularSanitiz
     function RoleAuthService($http, data_host){
         return {
             getRole: function () {
-                return $http.get(data_host + '/ctrl/client/role');
+                return $http.get(data_host + '/role');
             }
         }
     }

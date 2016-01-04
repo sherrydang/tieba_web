@@ -15,7 +15,7 @@ import java.util.Locale;
 /**
  * Created by xiang on 2015/6/17.
  */
-@RequestMapping("/ctrl/client")
+@RequestMapping("/")
 public interface ClientController {
 
     /**
@@ -47,12 +47,12 @@ public interface ClientController {
      * @param client
      * @return
      */
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public Object register(@ModelAttribute Client client);
 
     /**
-     *用户退出
+     * 用户退出
      *
      * @param locale
      * @param model
@@ -70,26 +70,4 @@ public interface ClientController {
     @RequestMapping(value = "/info/updateInfo", method = RequestMethod.GET)
     @ResponseBody
     public Object updateInfo(@ModelAttribute Client client);
-
-    /**
-     * 上传图片
-     *
-     * @param type
-     * @param req
-     * @param resp
-     * @return
-     */
-    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
-    @ResponseBody
-    public Object uploadImage(int type, HttpServletRequest req, HttpServletResponse resp);
-
-    /**
-     * 下载图片
-     *
-     * @param req
-     * @param resp
-     * @return
-     */
-    @RequestMapping(value = "/getImage", method = RequestMethod.GET)
-    public void getImage(long id, HttpServletRequest req, HttpServletResponse resp);
 }

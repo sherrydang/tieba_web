@@ -17,6 +17,16 @@ public class Post {
     private Long userId;
     private Client client;
 
+    public Short getReplyAmount() {
+        return replyAmount;
+    }
+
+    public void setReplyAmount(Short replyAmount) {
+        this.replyAmount = replyAmount;
+    }
+
+    private Short replyAmount;
+
     public Client getClient() {
         return client;
     }
