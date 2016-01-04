@@ -24,6 +24,10 @@ define(['angularAMD', 'angularRoute', 'filter/filter', 'angularSanitize','direct
                 templateUrl: 'views/register.html', controller: 'RegisterCtrl',
                 controllerUrl: 'controller/registerCtrl'
             }))
+            .when("/userInfo/:clientId",angularAMD.route({
+                templateUrl: 'views/userInfo.html', controller: 'UserInfoCtrl',
+                controllerUrl: 'controller/userInfoCtrl'
+            }))
             /*.when("/userDetail/:userId", angularAMD.route({
                 templateUrl: 'views/user_details.html', controller: 'UserDetailsCtrl',
                 controllerUrl: 'controller/userCtrl'
@@ -47,7 +51,7 @@ define(['angularAMD', 'angularRoute', 'filter/filter', 'angularSanitize','direct
         RoleAuthService.getRole().success(function(data){
             $rootScope.loginClient = data.client;
         }).error(function(r){
-            console.log(r);
+            //console.log(r);
         });
         $scope.$on('$destroy',function(){
             $rootScope.loginClient = undefined;

@@ -135,4 +135,14 @@ public class ClientControllerImpl extends BaseWebController implements ClientCon
         return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
     }
 
+    @Override
+    public Object getInfo(Long clientId) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        if(checkParaNULL(clientId)){
+            Client client = clientService.getClientByPK(clientId);
+            resultMap.put("client", client);
+            return sendResult(ResultCode.CODE_200.code, ResultCode.CODE_200.msg, resultMap);
+        }
+        return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
+    }
 }

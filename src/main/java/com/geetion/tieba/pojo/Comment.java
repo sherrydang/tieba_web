@@ -12,14 +12,14 @@ public class Comment {
     private Long replyId;
     private Date createTime;
     private Date updateTime;
-    private Long fromImageId;
+    private Client client;
 
-    public Long getFromImageId() {
-        return fromImageId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setFromImageId(Long fromImageId) {
-        this.fromImageId = fromImageId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public String getContent() {

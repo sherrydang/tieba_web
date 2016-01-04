@@ -1,20 +1,25 @@
 CREATE TABLE admin
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nick_name CHAR(1) NOT NULL,
-    account CHAR(1) NOT NULL,
+    nick_name CHAR(40),
+    account CHAR(40),
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     login_time TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
-    password CHAR(1) NOT NULL
+    password CHAR(40)
 );
+CREATE UNIQUE INDEX unique_account ON admin (account);
+CREATE UNIQUE INDEX unique_id ON admin (id);
 CREATE TABLE client
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nick_name CHAR(20),
     account CHAR(20),
     password CHAR(20) NOT NULL,
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    image_id BIGINT DEFAULT 1 NOT NULL,
+    FOREIGN KEY (image_id) REFERENCES image (id)
 );
+CREATE UNIQUE INDEX unique_account ON client (account);
 CREATE TABLE comment
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -23,7 +28,17 @@ CREATE TABLE comment
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     reply_id INT NOT NULL,
     from_id INT NOT NULL,
-    to_id INT
+    FOREIGN KEY (from_id) REFERENCES client (id),
+    FOREIGN KEY (reply_id) REFERENCES reply (id)
+);
+CREATE UNIQUE INDEX unique_id ON comment (id);
+CREATE INDEX FK_comment_from_id_idx ON comment (from_id);
+CREATE INDEX FK_comment_reply_id_idx ON comment (reply_id);
+CREATE TABLE image
+(
+    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    path LONGTEXT NOT NULL,
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 CREATE TABLE post
 (
@@ -34,8 +49,10 @@ CREATE TABLE post
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     top_status INT DEFAULT 0,
     best_status INT DEFAULT 0,
-    user_id INT NOT NULL
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES client (id)
 );
+CREATE INDEX id_idx ON post (user_id);
 CREATE TABLE reply
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -43,22 +60,10 @@ CREATE TABLE reply
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     post_id INT NOT NULL,
-    user_id INT NOT NULL
+    user_id INT NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES post (id),
+    FOREIGN KEY (user_id) REFERENCES client (id)
 );
-CREATE UNIQUE INDEX unique_account ON admin (account);
-CREATE UNIQUE INDEX unique_id ON admin (id);
-CREATE UNIQUE INDEX unique_account ON client (account);
-ALTER TABLE comment ADD FOREIGN KEY (from_id) REFERENCES client (id);
-ALTER TABLE comment ADD FOREIGN KEY (reply_id) REFERENCES reply (id);
-ALTER TABLE comment ADD FOREIGN KEY (to_id) REFERENCES client (id);
-CREATE UNIQUE INDEX unique_id ON comment (id);
-CREATE INDEX FK_comment_from_id_idx ON comment (from_id);
-CREATE INDEX FK_comment_reply_id_idx ON comment (reply_id);
-CREATE INDEX FK_comment_to_id_idx ON comment (to_id);
-ALTER TABLE post ADD FOREIGN KEY (user_id) REFERENCES client (id);
-CREATE INDEX id_idx ON post (user_id);
-ALTER TABLE reply ADD FOREIGN KEY (post_id) REFERENCES post (id);
-ALTER TABLE reply ADD FOREIGN KEY (user_id) REFERENCES client (id);
 CREATE UNIQUE INDEX unique_id ON reply (id);
 CREATE INDEX FK_reply_user_id_idx ON reply (user_id);
 CREATE INDEX post_id_idx ON reply (post_id);

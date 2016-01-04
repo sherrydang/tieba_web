@@ -1,3 +1,6 @@
+<div style="height:200px; width:100%; z-index: 1000;">
+    {{template}}
+</div>
 <div class="post-container">
     <div class="link" ng-repeat="post in postList">
         <div class="vote-span unvoted">
@@ -24,32 +27,20 @@
             </p>
             <!--<div class="expando-button collapsed selftext"></div>-->
             <p class="author-line">Submitted
-                <time title="Mon Dec 7 06:48:03 2015 UTC" datetime="2015-12-07T06:48:03+00:00" class="live-timestamp">
-                    an hour ago
-                </time>
                 by
-                <a href="https://www.reddit.com/user/shmerham"
-                   class="author may-blank id-t2_r5ti5">{{post.author}}</a>
+                <a class="author">{{post.author}}</a>
             </p>
             <ul class="post-actions">
                 <li>
-                    <a href="https://www.reddit.com/r/Android/comments/3vrg87/is_this_a_material_design_thing/"
-                       class="comments may-blank">{{post.replyAmount}} comments</a></li>
+                    <a class="comments may-blank">{{post.replyAmount}} comments</a></li>
                 <li>
-                    <a class="post-sharing-button" href="javascript: void 0;">share</a>
+                    <a href="#">share</a>
                 </li>
                 <li>
                     <a href="#">save</a>
                 </li>
                 <li>
-                    <form>
-                        <input type="hidden" name="executed" value="hidden">
-                        <span><a href="javascript:void(0)" class=" " onclick="change_state(this, 'hide', hide_thing);">hide</a></span>
-                    </form>
-                </li>
-                <li>
-                    <a href="javascript:void(0)" class="action-thing reportbtn access-required"
-                       data-event-action="report">report</a>
+                    <a href="#">report</a>
                 </li>
                 <li>
                     <a href="#">pocket</a>

@@ -70,4 +70,14 @@ public interface ClientController {
     @RequestMapping(value = "/info/updateInfo", method = RequestMethod.GET)
     @ResponseBody
     public Object updateInfo(@ModelAttribute Client client);
+
+    /**
+     * 获取用户个人资料
+     *
+     * @param clientId
+     * @return
+     */
+    @RequestMapping(value = "/info/getInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getInfo(Long clientId);
 }

@@ -9,8 +9,10 @@
         <result property="updateTime" column="comment_update_time"/>
         <result property="replyId" column="comment_reply_id"/>
         <result property="fromId" column="comment_from_id"/>
-        <result property="fromImageId" column="image_id"/>
 
+        <association property="client" javaType="com.geetion.tieba.pojo.Client"
+                     column="comment_from_id"
+                     resultMap="com.geetion.tieba.dao.ClientDAO.BaseResultMap"/>
     </resultMap>
 
     <sql id="tableProperty">
@@ -19,8 +21,7 @@
         comment.content as comment_content,
         comment.update_time as comment_update_time,
         comment.reply_id as comment_reply_id,
-        comment.from_id as comment_from_id,
-        client.image_id as image_id
+        comment.from_id as comment_from_id
     </sql>
 
 
@@ -98,7 +99,8 @@
 
     <select id="selectByReply" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
-        <include refid="tableProperty" />
+        <include refid="tableProperty" />,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>
         FROM comment
         LEFT OUTER JOIN client ON  comment.from_id = client.id
         <if test="replyId!=null">

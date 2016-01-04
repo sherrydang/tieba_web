@@ -9,7 +9,7 @@
       <div class="arrow down" data-event-action="downvote">
       </div>
     </div>
-    <a class="item-thumbnail" href="">
+    <a class="item-thumbnail" href="/#/userInfo/{{post.client.id}}">
       <img src="/showImage?id={{post.client.imageId}}" style="border-radius: 150px;" width="54" height="54" alt="">
     </a>
 
@@ -17,12 +17,9 @@
       <h3>{{post.title}}</h3>
 
       <p class="author-line">Submitted
-        <time title="Mon Dec 7 06:48:03 2015 UTC" datetime="2015-12-07T06:48:03+00:00" class="live-timestamp">
-          an hour ago
-        </time>
         by
-        <a href="https://www.reddit.com/user/shmerham"
-           class="author may-blank id-t2_r5ti5"><span> {{post.client.nickName}}</span></a>
+        <a href="/#/userInfo/{{post.client.id}}"
+           class="author"><span> {{post.client.nickName}}</span></a>
       </p>
       <hr style="margin-top:0">
       <div ng-bind-html="toTrusted(post.content)"></div>
@@ -30,7 +27,7 @@
         <li>
           <i class="fa fa-comments"></i>
           <a href="#"
-             class="comments may-blank">{{post.replyAmount}} comments</a>
+             class="comments">{{post.replyAmount}} comments</a>
         </li>
         <li>
           <a class="post-sharing-button" href="javascript: void 0;">share</a>
@@ -39,15 +36,7 @@
           <a href="#">save</a>
         </li>
         <li>
-          <form>
-            <input type="hidden" name="executed" value="hidden">
-            <span><a href="javascript:void(0)" class=" "
-                     onclick="change_state(this, 'hide', hide_thing);">hide</a></span>
-          </form>
-        </li>
-        <li>
-          <a href="javascript:void(0)" class="action-thing reportbtn access-required"
-             data-event-action="report">report</a>
+          <a href="#">report</a>
         </li>
         <li>
           <a href="#">pocket</a>
@@ -70,33 +59,31 @@
         <div class="arrow down" data-event-action="downvote">
         </div>
       </div>
-      <a class="item-thumbnail" href="">
+      <a class="item-thumbnail" href="/#/userInfo/{{reply.client.id}}">
         <img src="/showImage?id={{reply.client.imageId}}" style="border-radius: 150px;" width="54" height="54" alt="">
       </a>
 
       <div class="entry">
         <p class="author-line">Submitted
-          <time title="Mon Dec 7 06:48:03 2015 UTC" datetime="2015-12-07T06:48:03+00:00" class="live-timestamp">
-            an hour ago
-          </time>
           <!--by&nbsp;&nbsp;<img src="/images/android_icon.png" style="border-radius: 4px;" width="20" height="20" alt="">-->
-          by <span>{{reply.client.nickName}}</span>
+          by <a href="/#/userInfo/{{reply.client.id}}" class="author">
+            <span>{{reply.client.nickName}}</span>
+          </a>
         </p>
         <div ng-bind-html="toTrusted(reply.content)"></div>
         <ul class="post-actions">
           <li>
             <i class="fa fa-comments"></i>
-            <a class="comments may-blank" ng-click="showComments(reply)">replies</a>
+            <a ng-click="showComments(reply)">reply</a>
           </li>
           <li>
-            <a class="post-sharing-button" href="javascript: void 0;">share</a>
+            <a href="#">share</a>
           </li>
           <li>
             <a href="#">save</a>
           </li>
           <li>
-            <a href="javascript:void(0)" class="action-thing reportbtn access-required"
-               data-event-action="report">report</a>
+            <a href="#">report</a>
           </li>
           <li>
             <a href="#">pocket</a>
@@ -119,7 +106,7 @@
     <div style="margin-top:20px;">
       <form ng-submit="submitReply()">
         <textarea class="form-control" style="height:300px;" id="reply"></textarea>
-        <button style="margin-top:15px" type="submit" class="btn btn-primary" id="replySubmitBtn">Submit</button>
+        <button style="margin-top:15px" type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </div>

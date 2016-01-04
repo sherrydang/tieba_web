@@ -100,12 +100,14 @@ function PostDetailsCtrl($scope, PostService, ReplyService, CommentService, $roo
             var commentsStr = '';
             if(list.length > 0){
                 angular.forEach(list, function (item) {
-                    commentsStr = commentsStr +
-                    '<div style="padding: 10px 0;"><a class="item-thumbnail" href=""><img src="/showImage?id='+ item.fromImageId +'" style="border-radius: 150px;" width="25" height="25" alt=""> </a>'
-                    +'<div class="entry"> <p class="author-line">Submitted an hour ago'
-                        //+'<img src="/images/android_icon.png" style="border-radius: 4px;" width="20" height="20" alt="">'
-                    +'by <span>sherry</span></p>'
-                    +'<div>'+item.content+'</div></div></div>';
+                    commentsStr = commentsStr
+                        + '<div style="padding: 10px 0;"><a class="item-thumbnail" href="/#/userInfo/:'
+                        + item.client.id+'"><img src="/showImage?id='+ item.client.imageId
+                        +'" style="border-radius: 150px;" width="25" height="25" alt=""> </a>'
+                        +'<div class="entry"> <p class="author-line">Submitted'
+                        +' by <a href="/#/userInfo/:'+item.client.id
+                        +'" class="author"><span>'+ item.client.nickName+'</span></a></p>'
+                        +'<div>'+item.content+'</div></div></div>';
                 });
                 commentsStr += '</div>';
             }
