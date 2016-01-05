@@ -17,8 +17,7 @@
     <!-- CUSTOM STYLES -->
     <link rel="stylesheet" type="text/css" href="css/reddit.css">
 </head>
-<body>
-<div ng-controller="RoleAuthCtrl"></div>
+<body ng-controller="RoleAuthCtrl">
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -43,7 +42,7 @@
                 <li><a href="#/">new</a></li>
                 <li><a href="#/">promoted</a></li>
             </ul>
-            <span class="navbar-header-right pull-right">Want to join? <a href="#/register">Log in or sign up</a> in seconds.&nbsp|&nbsp<span
+            <span ng-show="!isLogging" class="navbar-header-right pull-right">Want to join? <a href="#/register">Log in or sign up</a> in seconds.&nbsp|&nbsp<span
                     class="setting-icon"></span></span>
         </div>
         <!-- /.navbar-collapse -->
@@ -56,8 +55,8 @@
     </ng-view>
     <div class="right-panel">
         <div class="spacer">
-            <form id="search">
-                <input type="text" placeholder="Search Ireddit..."/>
+            <form id="search" ng-submit="getPostByParams()">
+                <input type="text" ng-model="spostTitle" placeholder="Search Ireddit..."/>
                 <input type="submit"/>
             </form>
         </div>

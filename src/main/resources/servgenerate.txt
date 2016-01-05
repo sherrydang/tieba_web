@@ -1,0 +1,58 @@
+
+
+    var burl = "/ctrl/group/evaluateMember";
+    var apiName = "evaluateMember";
+function showAll() {
+        var str;
+        str = apiName + ": function () {"
+            + "return $http.get(data_host + '"+burl+"?methodType=1');"
+            + "},";
+        $scope.template1 = str;
+    }
+
+    function showId() {
+        var str;
+        str = apiName + "ById: function (id) {"
+            + "return $http.get(data_host + '" + burl + "?methodType=2&id='+id);},";
+        $scope.template2 = str;
+    }
+
+
+
+    function changeId(){
+        var burl = "/ctrl/group/scoreDesignAchievements";
+        var apiName = "scoreDesignAchievements";
+        var paramList = ["userIds", "stars"];
+        var params = "";
+        for (var x = 0; x < paramList.length - 1; x++) {
+            params += paramList[x] + ", ";
+        }
+        params += paramList[paramList.length - 1];
+        var str;
+        str = apiName + ": function (" + params + ") {"
+            + "return $http.get(data_host + '" + burl + "?" +paramList[0] + "='+" + paramList[0] + "+";
+        for (var x = 1; x < paramList.length - 1; x++) {
+            str += "'&" + paramList[x] + "='+" + paramList[x] + "+";
+        }
+        str += "'&"+paramList[paramList.length - 1] + "='+" + paramList[paramList.length - 1];
+        str += ");},";
+        $scope.template3 = str;
+    }
+
+    function showParams() {
+        var paramList = ["page", "size", "params"];
+        var params = "";
+        for (var x = 0; x < paramList.length - 1; x++) {
+            params += paramList[x] + ", ";
+        }
+        params += paramList[paramList.length - 1];
+        var str;
+        str = apiName + "ByParams: function (" + params + ") {"
+            + "return $http.get(data_host + '" + burl + "?methodType=3&" + paramList[0] + "='+" + paramList[0] + "+";
+        for (var x = 1; x < paramList.length - 1; x++) {
+            str += "'&" + paramList[x] + "='+" + paramList[x] + "+";
+        }
+        str += paramList[paramList.length - 1];
+        str += ");},";
+        $scope.template3 = str;
+    }
