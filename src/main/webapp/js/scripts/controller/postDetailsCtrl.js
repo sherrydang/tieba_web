@@ -31,6 +31,8 @@ function PostDetailsCtrl($scope, PostService, ReplyService, CommentService, $roo
     function getPostById(){
         PostService.getPostById($scope.postId).success(function(data){
             $scope.post = data.object;
+            $scope.post.isOpen = false;
+            document.title = $scope.post.title;
         }).error(function(r){
             console.log(r);
         });
@@ -117,6 +119,18 @@ function PostDetailsCtrl($scope, PostService, ReplyService, CommentService, $roo
             console.log(r);
         });
 
+    };
+
+    $scope.showJiathis = function (post) {
+        console.log(post.isOpen);
+        if (post.isOpen == true) {
+            post.isOpen = false;
+            $('#jiathis').hide();
+            console.log(post.id);
+        } else {
+            post.isOpen = true;
+            $('#jiathis').show();
+        }
     };
 
 }

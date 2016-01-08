@@ -1,5 +1,4 @@
 @import "navbar";
-
 /*GENERAL STYLES*/
 .theme-default {
   .panel, .table, hr{
@@ -106,7 +105,15 @@
     //transition: all .15s ease;
   }
 }
+.unselectable {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
 .post-actions {
+  @extend .unselectable;
   margin-top: 3px;
   display: block;
   list-style-type: none;

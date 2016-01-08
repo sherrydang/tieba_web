@@ -16,6 +16,25 @@ public class Post {
     private Short bestStatus;
     private Long userId;
     private Client client;
+    private Short replyAmount;
+    private Short postTotalVotes;
+    private Short postUserVote;
+
+    public Short getPostUserVote() {
+        return postUserVote;
+    }
+
+    public void setPostUserVote(Short postUserVote) {
+        this.postUserVote = postUserVote;
+    }
+
+    public Short getPostTotalVotes() {
+        return postTotalVotes;
+    }
+
+    public void setPostTotalVotes(Short postTotalVotes) {
+        this.postTotalVotes = postTotalVotes;
+    }
 
     public Short getReplyAmount() {
         return replyAmount;
@@ -24,8 +43,6 @@ public class Post {
     public void setReplyAmount(Short replyAmount) {
         this.replyAmount = replyAmount;
     }
-
-    private Short replyAmount;
 
     public Client getClient() {
         return client;

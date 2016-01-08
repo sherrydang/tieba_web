@@ -42,6 +42,11 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public List<Post> getAllPostLogin(Long userId) {
+        return postDAO.selectAfterLogin(userId);
+    }
+
+    @Override
     public boolean updateById(Post post) {
         return postDAO.update(post)>0;
     }

@@ -15,4 +15,6 @@ public interface PostDAO extends BaseDAO<Post, Long> {
 
     public List<Post> selectByClient(@Param("userId") Long userId);
 
+    public List<Post> selectAfterLogin(@Param("userId") Long userId);
+
 }

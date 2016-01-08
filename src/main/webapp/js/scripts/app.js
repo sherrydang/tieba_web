@@ -1,6 +1,6 @@
-define(['angularAMD', 'angularRoute', 'filter/filter', 'angularSanitize','directive/directive','ngUploadFile'], function (angularAMD) {
+define(['angularAMD', 'angularRoute', 'filter/filter', 'angularSanitize','directive/directive','ngUploadFile','angularCookies'], function (angularAMD) {
     'use strict';
-    var app = angular.module("tieba", ['ngRoute','ngSanitize','ngFileUpload']);
+    var app = angular.module("tieba", ['ngRoute','ngSanitize','ngFileUpload','ngCookies']);
 
     app.value("data_host", "http://localhost:8080/");
 
@@ -42,8 +42,8 @@ define(['angularAMD', 'angularRoute', 'filter/filter', 'angularSanitize','direct
 
         var userRole = ["GUEST"];
         var userRoleRouteMap = {
-            'USER': ['/','/edit','/detail','/register','/userInfo'],
-            'GUEST': ['/','/detail','/register','/userInfo']
+            'USER': ['/','/edit','/detail/:postId','/register','/userInfo'],
+            'GUEST': ['/','/detail/:postId','/register','/userInfo']
         };
 
         return {
@@ -80,7 +80,7 @@ define(['angularAMD', 'angularRoute', 'filter/filter', 'angularSanitize','direct
     }
 
     app.controller('RoleAuthCtrl',RoleAuthCtrl);
-    function RoleAuthCtrl($scope,$rootScope, RoleAuthService, $location){
+    function RoleAuthCtrl($scope,$rootScope, RoleAuthService, $location, data_host){
         RoleAuthService.getRole().success(function(data){
             if(data.code==200){
                 $rootScope.loginClient = data.client;
@@ -99,13 +99,13 @@ define(['angularAMD', 'angularRoute', 'filter/filter', 'angularSanitize','direct
             }
         });
         $rootScope.$on("$routeChangeStart", function(event, next, current) {
-            if(!RoleAuthService.isUrlAccessible(next.originalPath)){
-                alert("login in please");
+            //console.log($location.absUrl());
+            if($location.absUrl()!==data_host+'/#/'&&$location.absUrl()!==data_host&&!RoleAuthService.isUrlAccessible(next.originalPath)){
+                $("#login-user").modal("show");
                 if(current === undefined){
                     $location.path("/");
                 } else{
-                    $location.path(current.originalPath);
-                    console.log(current.originalPath);
+                    event.preventDefault();
                 }
             }
         });

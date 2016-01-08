@@ -9,7 +9,7 @@
       <div class="arrow down" data-event-action="downvote">
       </div>
     </div>
-    <a class="item-thumbnail" href="/#/userInfo/{{post.client.id}}">
+    <a class="item-thumbnail" href="#/userInfo/{{post.client.id}}">
       <img src="/showImage?id={{post.client.imageId}}" style="border-radius: 150px;" width="54" height="54" alt="">
     </a>
 
@@ -18,30 +18,39 @@
 
       <p class="author-line">Submitted
         by
-        <a href="/#/userInfo/{{post.client.id}}"
+        <a href="#/userInfo/{{post.client.id}}"
            class="author"><span> {{post.client.nickName}}</span></a>
+        • {{post.createTime}}
       </p>
       <hr style="margin-top:0">
       <div ng-bind-html="toTrusted(post.content)"></div>
       <ul class="post-actions" style="font-size: 12px;padding:10px 0 15px 0;">
         <li>
           <i class="fa fa-comments"></i>
-          <a href="#"
-             class="comments">{{post.replyAmount}} comments</a>
+          <a class="comments">{{post.replyAmount}} comments</a>
         </li>
         <li>
-          <a class="post-sharing-button" href="javascript: void 0;">share</a>
+          <a ng-click="showJiathis(post)">share</a>
         </li>
         <li>
-          <a href="#">save</a>
+          <a>report</a>
         </li>
         <li>
-          <a href="#">report</a>
-        </li>
-        <li>
-          <a href="#">pocket</a>
+          <a ng-click="addLinkToPocket(post)">pocket</a>
         </li>
       </ul>
+      <!-- JiaThis Button BEGIN -->
+      <div id="jiathis" class="jiathis_style_24x24" style="display:none">
+        <a class="jiathis_button_qzone"></a>
+        <a class="jiathis_button_tsina"></a>
+        <a class="jiathis_button_tqq"></a>
+        <a class="jiathis_button_weixin"></a>
+        <a class="jiathis_button_renren"></a>
+        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+        <a class="jiathis_counter_style"></a>
+      </div>
+      <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+      <!-- JiaThis Button END -->
     </div>
   </div>
   <hr>
@@ -59,14 +68,14 @@
         <div class="arrow down" data-event-action="downvote">
         </div>
       </div>
-      <a class="item-thumbnail" href="/#/userInfo/{{reply.client.id}}">
+      <a class="item-thumbnail" href="#/userInfo/{{reply.client.id}}">
         <img src="/showImage?id={{reply.client.imageId}}" style="border-radius: 150px;" width="54" height="54" alt="">
       </a>
 
       <div class="entry">
         <p class="author-line">Submitted
           <!--by&nbsp;&nbsp;<img src="/images/android_icon.png" style="border-radius: 4px;" width="20" height="20" alt="">-->
-          by <a href="/#/userInfo/{{reply.client.id}}" class="author">
+          by <a href="#/userInfo/{{reply.client.id}}" class="author">
             <span>{{reply.client.nickName}}</span>
           </a>
         </p>
@@ -77,16 +86,10 @@
             <a ng-click="showComments(reply)">reply</a>
           </li>
           <li>
-            <a href="#">share</a>
+            <a>report</a>
           </li>
           <li>
-            <a href="#">save</a>
-          </li>
-          <li>
-            <a href="#">report</a>
-          </li>
-          <li>
-            <a href="#">pocket</a>
+            <span style="color:#b3b3b3">{{reply.createTime}}</span>
           </li>
         </ul>
         <div id="comment{{reply.id}}" style="display:none;">

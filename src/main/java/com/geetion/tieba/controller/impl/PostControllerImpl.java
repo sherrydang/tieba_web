@@ -49,6 +49,10 @@ public class PostControllerImpl extends BaseWebController implements PostControl
                     resultMap.put("totalSize", pagingForKeyword.getTotalSize());
                     resultMap.put("currentPage", pagingForKeyword.getCurrentPage());
                     break;
+                case 4:
+                    List<Post> listLogin = postService.getAllPostLogin(userId);
+                    resultMap.put("list", listLogin);
+                    break;
             }
             return sendResult(ResultCode.CODE_200.code, ResultCode.CODE_200.msg, resultMap);
         }

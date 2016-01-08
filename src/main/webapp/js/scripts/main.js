@@ -8,6 +8,7 @@ require.config({
         angularRoute: '../lib/angular/angular-route',
         angularAMD: '../lib/requirejs/angularAMD.min',
         angularSanitize:'../lib/angular/angular-sanitize.min',
+        angularCookies:'../lib/angular/angular-cookies.min',
         ngUploadFile: '../lib/upload-progress/ng-file-upload',
         ngUploadFile_shim: '../lib/upload-progress/ng-file-upload-shim'
     },
@@ -20,6 +21,9 @@ require.config({
             deps: ['angular']
         },
         angularSanitize: {
+            deps: ['angular']
+        },
+        angularCookies: {
             deps: ['angular']
         },
         ngUploadFile: {

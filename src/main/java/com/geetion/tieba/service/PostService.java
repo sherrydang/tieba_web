@@ -51,4 +51,9 @@ public interface PostService {
      */
     public int deleteBatch(List<Long> list);
 
+    /**
+     * 登录后帖子首页（包含点赞）
+     */
+    public List<Post> getAllPostLogin(Long userId);
+
 }

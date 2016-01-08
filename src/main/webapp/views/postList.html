@@ -15,7 +15,7 @@
 
         <div class="entry bottom-line">
             <p class="title">
-                <a class="" href="/#/edit/{{post.id}}">
+                <a class="" href="#/detail/{{post.id}}">
                     {{post.title}}
                 </a>
             <span class="topic-domain">
@@ -29,20 +29,16 @@
             </p>
             <ul class="post-actions">
                 <li>
-                    <a class="comments may-blank">{{post.replyAmount}} comments</a></li>
-                <li>
-                    <a href="#">share</a>
-                </li>
-                <li>
-                    <a href="#">save</a>
+                    <a class="comments may-blank">{{post.replyAmount}} comments</a>
                 </li>
                 <li>
                     <a href="#">report</a>
                 </li>
                 <li>
-                    <a href="#">pocket</a>
+                    <a ng-click="addLinkToPocket(post)">pocket</a>
                 </li>
             </ul>
         </div>
     </div>
 </div>
+<script src="http://v2.jiathis.com/code/jiathis_r.js?move=0"></script>

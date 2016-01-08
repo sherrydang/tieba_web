@@ -1,14 +1,10 @@
-CREATE TABLE admin
+CREATE TABLE cilent_poststar
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nick_name CHAR(40),
-    account CHAR(40),
-    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    login_time TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
-    password CHAR(40)
+    client_id INT NOT NULL,
+    post_id INT NOT NULL
 );
-CREATE UNIQUE INDEX unique_account ON admin (account);
-CREATE UNIQUE INDEX unique_id ON admin (id);
+CREATE UNIQUE INDEX unique_id ON cilent_poststar (id);
 CREATE TABLE client
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -16,8 +12,7 @@ CREATE TABLE client
     account CHAR(20),
     password CHAR(20) NOT NULL,
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    image_id BIGINT DEFAULT 1 NOT NULL,
-    FOREIGN KEY (image_id) REFERENCES image (id)
+    image_id BIGINT DEFAULT 1
 );
 CREATE UNIQUE INDEX unique_account ON client (account);
 CREATE TABLE comment

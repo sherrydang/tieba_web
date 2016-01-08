@@ -12,6 +12,7 @@
         <result property="bestStatus" column="post_best_status"/>
         <result property="userId" column="post_user_id"/>
         <result property="replyAmount" column="reply_count"/>
+        <result property="postTotalVotes" column="post_total_votes"/>
 
         <association property="client" javaType="com.geetion.tieba.pojo.Client"
                      column="post_user_id"
@@ -34,6 +35,12 @@
         <result property="bestStatus" column="post_best_status"/>
         <result property="userId" column="post_user_id"/>
         <result property="replyAmount" column="reply_count"/>
+        <result property="postTotalVotes" column="post_total_votes"/>
+        <result property="postUserVote" column="post_user_vote"/>
+
+        <association property="client" javaType="com.geetion.tieba.pojo.Client"
+                     column="post_user_id"
+                     resultMap="com.geetion.tieba.dao.ClientDAO.BaseResultMap"/>
 
     </resultMap>
 
@@ -147,12 +154,43 @@
     <select id="select" resultMap="BaseResultMap" >
         SELECT
         <include refid="tableProperty" />,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>,
         (
         SELECT Count(*)
         FROM reply
         Where reply.post_id = post.id
-        ) as reply_count
+        ) as reply_count,
+        (
+        SELECT Count(*)
+        FROM post_vote
+        Where post_vote.post_id = post.id
+        ) as post_total_votes
         FROM post
+        LEFT OUTER JOIN client AS client ON  post.user_id = client.id
+        ORDER BY post.create_time DESC
+    </select>
+
+    <select id="selectAfterLogin" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="tableProperty" />,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>,
+        (
+        SELECT Count(*)
+        FROM reply
+        Where reply.post_id = post.id
+        ) as reply_count,
+        (
+        SELECT Count(*)
+        FROM post_vote
+        Where post_vote.post_id = post.id
+        ) as post_total_votes,
+        (
+        SELECT post_vote.vote
+        FROM post_vote
+        Where post_vote.client_id = #{userId} AND post_vote.post_id = post.id
+        ) AS post_user_vote
+        FROM post
+        LEFT OUTER JOIN client AS client ON  post.user_id = client.id
         ORDER BY post.create_time DESC
     </select>
 
@@ -175,7 +213,12 @@
         SELECT Count(*)
         FROM reply
         Where reply.post_id = post.id
-        ) as reply_count
+        ) as reply_count,
+        (
+        SELECT Count(*)
+        FROM post_vote
+        Where post_vote.post_id = post.id
+        ) as post_total_votes
         FROM post
         LEFT OUTER JOIN client AS client ON  post.user_id = client.id
         LEFT OUTER JOIN reply ON post.id = reply.post_id
@@ -192,8 +235,20 @@
     </select>-->
     <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">
         SELECT
-        <include refid="tableProperty" />
+        <include refid="tableProperty" />,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>
+        (
+        SELECT Count(*)
+        FROM reply
+        Where reply.post_id = post.id
+        ) as reply_count,
+        (
+        SELECT Count(*)
+        FROM post_vote
+        Where post_vote.post_id = post.id
+        ) as post_total_votes
         FROM post
+        LEFT OUTER JOIN client AS client ON  post.user_id = client.id
         <trim prefix="where" prefixOverrides="and|or" >
             <if test="id != null">
                 id = #{id}
