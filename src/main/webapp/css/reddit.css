@@ -204,6 +204,9 @@
       color: #1976D2;
       font-weight: 700 !important; }
 
+.author {
+  color: #b3b3b3; }
+
 .arrow {
   margin: 0 0 0 2px;
   background-image: url("/images/icons.png") !important;

@@ -4,6 +4,7 @@ import com.geetion.tieba.controller.PostController;
 import com.geetion.tieba.controller.base.BaseWebController;
 import com.geetion.tieba.enums.ResultCode;
 import com.geetion.tieba.pojo.Post;
+import com.geetion.tieba.pojo.PostVote;
 import com.geetion.tieba.service.PostService;
 import com.geetion.tieba.utils.mybatis.PageEntity;
 import com.geetion.tieba.utils.mybatis.PagingResult;
@@ -85,6 +86,32 @@ public class PostControllerImpl extends BaseWebController implements PostControl
         }
         return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
     }
+
+    @Override
+    public Object insertVote(@ModelAttribute PostVote postVote) {
+        if (postVote != null) {
+//            post.setAdminId(getLoginAdmin().getId());
+            boolean insertResult = postService.insertVote(postVote);
+            if (insertResult) {
+                return sendResult(ResultCode.CODE_200.code, ResultCode.CODE_200.msg, null);
+            }
+            return sendResult(ResultCode.CODE_500.code, ResultCode.CODE_500.msg, null);
+        }
+        return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
+    }
+
+    @Override
+    public Object updateVote(@ModelAttribute PostVote postVote) {
+        if (postVote != null) {
+            boolean updateResult = postService.updateVote(postVote);
+            if (updateResult) {
+                return sendResult(ResultCode.CODE_200.code, ResultCode.CODE_200.msg, null);
+            }
+            return sendResult(ResultCode.CODE_500.code, ResultCode.CODE_500.msg, null);
+        }
+        return sendResult(ResultCode.CODE_401.code, ResultCode.CODE_401.msg, null);
+    }
+
 
     @Override
     public Object deleteBatch(Long[] ids) {

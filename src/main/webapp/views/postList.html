@@ -1,12 +1,10 @@
 <div class="post-container">
     <div class="link" ng-repeat="post in postList">
         <div class="vote-span unvoted">
-            <div class="arrow up" data-event-action="upvote">
+            <div class="arrow up"  ng-click="upVote(post)">
             </div>
-            <!--<div class="score dislikes">40</div>-->
-            <div class="score unvoted">{{post.ups}}</div>
-            <!--<div class="score likes">42</div>-->
-            <div class="arrow down" data-event-action="downvote">
+            <div class="score likes">{{post.postTotalVotes}}</div>
+            <div class="arrow down" ng-click="downVote(post)">
             </div>
         </div>
         <a class="item-thumbnail" href="">
@@ -25,7 +23,7 @@
             <!--<div class="expando-button collapsed selftext"></div>-->
             <p class="author-line">Submitted
                 by
-                <a class="author">{{post.author}}</a>
+                <a class="author">{{post.client.nickName}}</a>
             </p>
             <ul class="post-actions">
                 <li>

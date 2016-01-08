@@ -1,6 +1,7 @@
 package com.geetion.tieba.controller;
 
 import com.geetion.tieba.pojo.Post;
+import com.geetion.tieba.pojo.PostVote;
 import com.geetion.tieba.utils.mybatis.PageEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,20 @@ public interface PostController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     Object updatePost(@ModelAttribute Post post);
+
+    /**
+     * 发布用户帖子点赞
+     */
+    @RequestMapping(value = "/insertVote", method = RequestMethod.POST)
+    @ResponseBody
+    Object insertVote(@ModelAttribute PostVote postVote);
+
+    /**
+     * 修改用户帖子点赞
+     */
+    @RequestMapping(value = "/updateVote", method = RequestMethod.POST)
+    @ResponseBody
+    Object updateVote(@ModelAttribute PostVote postVote);
 
     /**
      * 批量删除帖子

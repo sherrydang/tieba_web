@@ -1,13 +1,9 @@
 <div class="post-container">
   <div class="row">
     <div class="vote-span unvoted">
-      <div class="arrow up" data-event-action="upvote">
-      </div>
-      <!--<div class="score dislikes">40</div>-->
-      <div class="score unvoted ng-binding"></div>
-      <!--<div class="score likes">42</div>-->
-      <div class="arrow down" data-event-action="downvote">
-      </div>
+      <div class="arrow up"  ng-click="upVote(post)"></div>
+      <div class="score likes">{{post.postTotalVotes}}</div>
+      <div class="arrow down"  ng-click="downVote(post)"></div>
     </div>
     <a class="item-thumbnail" href="#/userInfo/{{post.client.id}}">
       <img src="/showImage?id={{post.client.imageId}}" style="border-radius: 150px;" width="54" height="54" alt="">

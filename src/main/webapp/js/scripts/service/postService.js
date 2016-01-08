@@ -7,8 +7,10 @@ define(['app'], function (app) {
 function PostService($http, data_host) {
     return {
         getAllPost: function () {
-            //return $http.get('https://www.reddit.com/r/Android/new/.json');
             return $http.get(data_host + '/post/search?methodType=1');
+        },
+        getAllPostLogin: function (userId) {
+            return $http.get(data_host + '/post/search?methodType=4&userId='+userId);
         },
         addPost: function (postObj) {
             return $http.post(data_host + '/post/add',
@@ -21,6 +23,18 @@ function PostService($http, data_host) {
         },
         getPostByParams: function (page, size, title) {
             return $http.get(data_host + '/post/search?methodType=3&page=' + page + '&size=' + size + '&title=' + title);
+        },
+        updateVote: function (object) {
+            return $http.post(data_host + '/post/updateVote',
+                $.param(object),
+                {'headers': {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}}
+            );
+        },
+        insertVote: function (object) {
+            return $http.post(data_host + '/post/insertVote',
+                $.param(object),
+                {'headers': {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}}
+            );
         }
     };
 }

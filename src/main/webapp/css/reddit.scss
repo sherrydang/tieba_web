@@ -132,6 +132,9 @@
     }
   }
 }
+.author{
+  color: #b3b3b3;
+}
 .arrow {
   margin: 0 0 0 2px;
   background-image: url("/images/icons.png")!important;
@@ -283,9 +286,9 @@
   &:last-child{
     border-bottom: none;
   }
-/*  .vote-span{
-    margin:10px 10px 10px 0;
-  }*/
+  /*  .vote-span{
+      margin:10px 10px 10px 0;
+    }*/
   .entry{
     padding:0 0 0 15px;
   }

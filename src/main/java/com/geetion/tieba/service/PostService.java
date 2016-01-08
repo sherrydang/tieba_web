@@ -1,6 +1,7 @@
 package com.geetion.tieba.service;
 
 import com.geetion.tieba.pojo.Post;
+import com.geetion.tieba.pojo.PostVote;
 import com.geetion.tieba.utils.mybatis.PageEntity;
 import com.geetion.tieba.utils.mybatis.PagingResult;
 
@@ -24,6 +25,17 @@ public interface PostService {
      * 修改帖子
      */
     public boolean updateById(Post object);
+
+    /**
+     * 修改帖子点赞
+     */
+    public boolean updateVote(PostVote postVote);
+
+
+    /**
+     * 新建帖子点赞
+     */
+    public boolean insertVote(PostVote postVote);
 
     /**
      * 查询所有帖子

@@ -13,6 +13,7 @@
         <result property="userId" column="post_user_id"/>
         <result property="replyAmount" column="reply_count"/>
         <result property="postTotalVotes" column="post_total_votes"/>
+        <result property="postUserVote" column="post_user_vote"/>
 
         <association property="client" javaType="com.geetion.tieba.pojo.Client"
                      column="post_user_id"
@@ -180,7 +181,7 @@
         Where reply.post_id = post.id
         ) as reply_count,
         (
-        SELECT Count(*)
+        SELECT SUM(post_vote.vote)
         FROM post_vote
         Where post_vote.post_id = post.id
         ) as post_total_votes,
@@ -228,6 +229,36 @@
         </if>
     </select>
 
+    <select id="selectLoginPk" resultMap="BaseResultMap2" parameterType="java.lang.Long">
+        SELECT
+        <include refid="tableProperty" />,
+        <include refid="com.geetion.tieba.dao.ReplyDAO.tableProperty"/>,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty"/>,
+        <include refid="com.geetion.tieba.dao.ClientDAO.tableProperty2"/>,
+        (
+        SELECT Count(*)
+        FROM reply
+        Where reply.post_id = post.id
+        ) as reply_count,
+        (
+        SELECT Count(*)
+        FROM post_vote
+        Where post_vote.post_id = post.id
+        ) as post_total_votes
+        (
+        SELECT post_vote.vote
+        FROM post_vote
+        Where post_vote.client_id = #{userId} AND post_vote.post_id = post.id
+        ) AS post_user_vote
+        FROM post
+        LEFT OUTER JOIN client AS client ON  post.user_id = client.id
+        LEFT OUTER JOIN reply ON post.id = reply.post_id
+        LEFT OUTER JOIN client AS client2 ON  reply.user_id = client2.id
+        <if test="_parameter!=null">
+            WHERE post.id = #{id}
+        </if>
+    </select>
+
 <!--    <select id="selectParam" parameterType="java.util.Map" resultMap="BaseResultMap">
         SELECT
         <include refid="tableProperty" />
@@ -265,4 +296,43 @@
         </trim>
         ORDER BY post.create_time DESC
     </select>
+
+    <update id="updateVote" parameterType="com.geetion.tieba.pojo.PostVote">
+        UPDATE post_vote
+        <trim suffixOverrides=",">
+            <set>
+                <if test="vote != null ">
+                    vote = #{vote},
+                </if>
+            </set>
+        </trim>
+        WHERE client_id = #{userId} AND post_id = #{postId}
+    </update>
+
+    <insert id="insertVote" parameterType="com.geetion.tieba.pojo.PostVote">
+        INSERT INTO post_vote
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null ">
+                client_id,
+            </if>
+            <if test="postId != null ">
+                post_id,
+            </if>
+            <if test="vote != null ">
+                vote,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">
+                #{userId},
+            </if>
+            <if test="postId != null ">
+                #{postId},
+            </if>
+            <if test="vote != null ">
+                #{vote},
+            </if>
+        </trim>
+
+    </insert>
 </mapper>

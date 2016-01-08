@@ -133,4 +133,39 @@ function PostDetailsCtrl($scope, PostService, ReplyService, CommentService, $roo
         }
     };
 
+    $scope.upVote = function (post) {
+        var voteObj = {userId:post.userId, postId:post.id, vote:1};
+        if(post.postUserVote!=null){
+            updateVote(voteObj);
+        }else{
+            insertVote(voteObj);
+        }
+    };
+
+    $scope.downVote = function (post) {
+        var voteObj = {userId:post.userId, postId:post.id, vote:-1};
+        if(post.postUserVote!=null){
+            updateVote(voteObj);
+        }else{
+            insertVote(voteObj);
+        }
+    };
+
+    function updateVote(postVote){
+        PostService.updateVote(postVote).success(function (data) {
+            console.log(data);
+            getPostById();
+        }).error(function (r) {
+            console.log(r);
+        });
+    }
+
+    function insertVote(postVote){
+        PostService.insertVote(postVote).success(function (data) {
+            console.log(data);
+            getPostById();
+        }).error(function (r) {
+            console.log(r);
+        });
+    }
 }

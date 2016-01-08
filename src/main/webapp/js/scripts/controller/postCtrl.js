@@ -11,15 +11,15 @@ function PostCtrl($scope, $rootScope, PostService, PocketService, $cookies) {
     var page = 1;
     var size = 5;
 
-    function getAllPost() {
-        PostService.getAllPost().success(function (data) {
+    function getAllPostLogin() {
+        PostService.getAllPostLogin(1).success(function (data) {
             $scope.postList = data.list;
         }).error(function (r) {
             console.log(r);
         });
     }
 
-    getAllPost();
+    getAllPostLogin();
 
     $rootScope.getPostByParams = function () {
         PostService.getPostByParams(page, size, $rootScope.sTitle).success(function (data) {
@@ -81,5 +81,41 @@ function PostCtrl($scope, $rootScope, PostService, PocketService, $cookies) {
             }
         }
         alert('Query Variable ' + vars + ' not found');
+    }
+
+    $scope.upVote = function (post) {
+        var voteObj = {userId:post.userId, postId:post.id, vote:1};
+        if(post.postUserVote!=null){
+            updateVote(voteObj);
+        }else{
+            insertVote(voteObj);
+        }
+    };
+
+    $scope.downVote = function (post) {
+        var voteObj = {userId:post.userId, postId:post.id, vote:-1};
+        if(post.postUserVote!=null){
+            updateVote(voteObj);
+        }else{
+            insertVote(voteObj);
+        }
+    };
+
+    function updateVote(postVote){
+        PostService.updateVote(postVote).success(function (data) {
+            console.log(data);
+            getAllPostLogin();
+        }).error(function (r) {
+            console.log(r);
+        });
+    }
+
+    function insertVote(postVote){
+        PostService.insertVote(postVote).success(function (data) {
+            console.log(data);
+            getAllPostLogin();
+        }).error(function (r) {
+            console.log(r);
+        });
     }
 }

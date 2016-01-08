@@ -2,6 +2,7 @@ package com.geetion.tieba.service.impl;
 
 import com.geetion.tieba.dao.PostDAO;
 import com.geetion.tieba.pojo.Post;
+import com.geetion.tieba.pojo.PostVote;
 import com.geetion.tieba.service.PostService;
 import com.geetion.tieba.utils.mybatis.PageEntity;
 import com.geetion.tieba.utils.mybatis.PagingResult;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by sherry on 2015/11/12.
  */
 @Service
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl implements PostService {
 
     @Resource
     private PostDAO postDAO;
@@ -48,7 +49,17 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public boolean updateById(Post post) {
-        return postDAO.update(post)>0;
+        return postDAO.update(post) > 0;
+    }
+
+    @Override
+    public boolean updateVote(PostVote postVote) {
+        return postDAO.updateVote(postVote) > 0;
+    }
+
+    @Override
+    public boolean insertVote(PostVote postVote) {
+        return postDAO.insertVote(postVote) > 0;
     }
 
     @Override
